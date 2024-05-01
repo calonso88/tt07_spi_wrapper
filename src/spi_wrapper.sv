@@ -9,7 +9,7 @@
   input logic spi_mosi;
   output logic spi_miso;
 
-  output logic [2:0][WIDTH-1:0] config_regs [NUM_REGS];
+  output logic [2:0][WIDTH-1:0] config_regs;
   //output logic [($clog2(NUM_REGS)-1):0][WIDTH-1:0] config_regs [NUM_REGS];
   //output logic [WIDTH-1:0] status_regs [NUM_REGS];
   output logic [WIDTH-1:0] status_regs;
