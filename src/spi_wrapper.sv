@@ -68,11 +68,14 @@
   end
 
   // Assign config regs
-  always_comb begin
-    for (i = 0; i < NUM_REGS; i++) begin
-      assign config_regs[((i+1)*WIDTH-1):i*WIDTH] = mem[i];
-    end
-  end
+  assign config_regs[7:0] = mem[0];
+  assign config_regs[15:8] = mem[1];
+  assign config_regs[23:16] = mem[2];
+  assign config_regs[31:24] = mem[3];
+  assign config_regs[39:32] = mem[4];
+  assign config_regs[47:40] = mem[5];
+  assign config_regs[55:48] = mem[6];
+  assign config_regs[63:56] = mem[7];
 
   // Assign status regs
   assign status_regs = '0;
