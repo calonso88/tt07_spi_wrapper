@@ -1,40 +1,40 @@
 module spi_reg #(
-    parameter int ADDR_W = 6,   //1~6
-    parameter int REG_W = 16    //8, 16, 24, 32, ..., 64
+    parameter int ADDR_W = 3,
+    parameter int REG_W = 8
 ) (
-    input clk,
-    input nrst,
-    input mosi,
-    output miso,
-    input sclk,
-    input nss,
-    output [ADDR_W-1:0] reg_addr,
-    input [REG_W-1:0] reg_data_i,
-    output [REG_W-1:0] reg_data_o,
-    output reg reg_data_o_vld,
-    input [7:0] status,
-    output [5:0] fastcmd,
-    output reg fastcmd_vld
+    input logic clk,
+    input logic nrst,
+    input logic mosi,
+    output logic miso,
+    input logic sclk,
+    input logic nss,
+    output logic [ADDR_W-1:0] reg_addr,
+    input logic [REG_W-1:0] reg_data_i,
+    output logic [REG_W-1:0] reg_data_o,
+    output logic  reg_data_o_vld,
+    input logic [7:0] status,
+    output logic [5:0] fastcmd,
+    output logic  fastcmd_vld
 );
 
-reg mosi1, mosi2;
-reg sclk1, sclk2, sclk3;
-reg nss1, nss2, nss3;
+logic  mosi1, mosi2;
+logic  sclk1, sclk2, sclk3;
+logic  nss1, nss2, nss3;
 
-reg [REG_W-2:0] mosi_sr;
-wire [REG_W-1:0] isr; 
-reg [REG_W-1:0] osr;
-reg [7:0] cmd;  //00_xxxxxx = read, 10_xxxxxx = write, 11_xxxxxx = fastcmd
-reg cmd_vld;
+logic  [REG_W-2:0] mosi_sr;
+logic  [REG_W-1:0] isr; 
+logic  [REG_W-1:0] osr;
+logic  [7:0] cmd;  //00_xxxxxx = read, 10_xxxxxx = write, 11_xxxxxx = fastcmd
+logic  cmd_vld;
 
-wire [5:0] new_reg_addr;
-wire [REG_W-1:0] reg_data_i_be;
-reg [REG_W-1:0] reg_data_o_be; 
+logic [5:0] new_reg_addr;
+logic  [REG_W-1:0] reg_data_i_be;
+logic  [REG_W-1:0] reg_data_o_be; 
 
-reg [$clog2(REG_W)-1:0] cnt; 
-reg [1:0] state;
+logic  [$clog2(REG_W)-1:0] cnt; 
+logic  [1:0] state;
 
-wire sclk_samp, sclk_upd, sel, desel, nss_val;
+logic  sclk_samp, sclk_upd, sel, desel, nss_val;
 
 assign isr = {mosi_sr, mosi2};
 assign miso = osr[REG_W-1];
