@@ -41,7 +41,7 @@
     .reg_data_i(reg_data_i),
     .reg_data_o(reg_data_o),
     .reg_data_o_vld(reg_data_o_vld),
-    .status(status),
+    .status('0),
     .fastcmd(),
     .fastcmd_vld()
   );
