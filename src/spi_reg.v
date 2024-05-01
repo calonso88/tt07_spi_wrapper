@@ -1,4 +1,4 @@
-module spireg #(
+module spi_reg #(
     parameter int ADDR_W = 6,   //1~6
     parameter int REG_W = 16    //8, 16, 24, 32, ..., 64
 ) (
