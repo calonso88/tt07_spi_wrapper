@@ -26,10 +26,10 @@
   logic [REG_WIDTH-1:0] mem [0:(2**ADDR_WIDTH-1)];
 
   // Serial interface
-  spireg #(
+  spi_reg #(
     .ADDR_W(ADDR_WIDTH),
     .REG_W(REG_WIDTH)
-  ) spireg_inst (
+  ) spi_reg_inst (
     .clk(clk),
     .nrst(rstb),
     .mosi(spi_mosi),
