@@ -10,13 +10,10 @@
   output logic spi_miso;
 
   output logic [NUM_REGS*WIDTH-1:0] config_regs;
-  //output logic [($clog2(NUM_REGS)-1):0][WIDTH-1:0] config_regs [NUM_REGS];
-  //output logic [WIDTH-1:0] status_regs [NUM_REGS];
   output logic [WIDTH-1:0] status_regs;
 
   // Address width for register bank
   localparam int ADDR_WIDTH = $clog2(NUM_REGS);
-  //localparam int ADDR_WIDTH = 3;
   localparam int REG_WIDTH = WIDTH;
 
   // Auxiliar variables for SPIREG
