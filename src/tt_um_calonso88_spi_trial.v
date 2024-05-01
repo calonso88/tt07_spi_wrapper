@@ -45,6 +45,6 @@ module tt_um_calonso88_spi_trial (
   assign spi_mosi   = ui_in[2]; 
 
   // SPI wrapper
-  spi_wrapper #(.NUM_REGS(NUM_REGS), .WIDTH(REG_WIDTH)) spi_wrapper_i (.rstb(rst_n), .clk(clk), .ena(ena), .spi_cs_n(spi_cs_n), .spi_clk(spi_clk), .spi_mosi(spi_mosi), .spi_miso(spi_miso), .config_regs(), .stat_reg());
+  spi_wrapper #(.NUM_REGS(NUM_REGS), .WIDTH(REG_WIDTH)) spi_wrapper_i (.rstb(rst_n), .clk(clk), .ena(ena), .spi_cs_n(spi_cs_n), .spi_clk(spi_clk), .spi_mosi(spi_mosi), .spi_miso(spi_miso), .config_regs(), .status_regs());
 
 endmodule
