@@ -9,7 +9,8 @@
   input logic spi_mosi;
   output logic spi_miso;
 
-  output logic [WIDTH-1:0] config_regs [NUM_REGS];
+  output logic [2:0][WIDTH-1:0] config_regs [NUM_REGS];
+  //output logic [($clog2(NUM_REGS)-1):0][WIDTH-1:0] config_regs [NUM_REGS];
   //output logic [WIDTH-1:0] status_regs [NUM_REGS];
   output logic [WIDTH-1:0] status_regs;
 
@@ -66,8 +67,14 @@
     end
   end
 
-  // Assign cfg regs
-  assign config_regs = mem;
+  // Assign config regs
+  always_comb begin
+    for (i = 0; i < 2**ADDR_WIDTH; i++) begin
+      assign config_regs[i] = mem[i];
+    end
+  end
+
+  // Assign status regs
   assign status_regs = '0;
 
 endmodule
