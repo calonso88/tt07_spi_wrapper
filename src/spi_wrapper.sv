@@ -9,14 +9,14 @@
   input logic spi_mosi;
   output logic spi_miso;
 
-  output logic [2:0][WIDTH-1:0] config_regs;
+  output logic [NUM_REGS*WIDTH-1:0] config_regs;
   //output logic [($clog2(NUM_REGS)-1):0][WIDTH-1:0] config_regs [NUM_REGS];
   //output logic [WIDTH-1:0] status_regs [NUM_REGS];
   output logic [WIDTH-1:0] status_regs;
 
   // Address width for register bank
-  //localparam int ADDR_WIDTH = $clog2(NUM_REGS);
-  localparam int ADDR_WIDTH = 3;
+  localparam int ADDR_WIDTH = $clog2(NUM_REGS);
+  //localparam int ADDR_WIDTH = 3;
   localparam int REG_WIDTH = WIDTH;
 
   // Auxiliar variables for SPIREG
@@ -24,7 +24,7 @@
   logic [REG_WIDTH-1:0] reg_data_i, reg_data_o;
   logic reg_data_o_vld;
   logic [REG_WIDTH-1:0] status;
-  logic [((2**ADDR_WIDTH)-1):0][REG_WIDTH-1:0] mem ;
+  logic [((2**ADDR_WIDTH)-1):0][REG_WIDTH-1:0] mem;
 
   // Serial interface
   spi_reg #(
@@ -69,8 +69,8 @@
 
   // Assign config regs
   always_comb begin
-    for (i = 0; i < 2**ADDR_WIDTH; i++) begin
-      assign config_regs[i] = mem[i];
+    for (i = 0; i < NUM_REGS; i++) begin
+      assign config_regs[((i+1)*WIDTH-1):i*WIDTH] = mem[i];
     end
   end
 
