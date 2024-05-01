@@ -17,7 +17,7 @@ project:
   source_files:        
     - "tt_um_calonso88_spi_trial.v"
     - "spi_wrapper.sv"
-    - "spi_reg.v"
+    - "spi_reg.sv"
     - "synchronizer.sv"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
