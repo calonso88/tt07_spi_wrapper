@@ -24,7 +24,7 @@
   logic [REG_WIDTH-1:0] reg_data_i, reg_data_o;
   logic reg_data_o_vld;
   logic [REG_WIDTH-1:0] status;
-  logic [((2**ADDR_WIDTH)-1):0][REG_WIDTH-1:0] mem;
+  logic [REG_WIDTH-1:0] mem [NUM_REGS];
 
   // Serial interface
   spi_reg #(
