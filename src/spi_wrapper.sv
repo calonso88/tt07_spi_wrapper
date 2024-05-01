@@ -61,8 +61,6 @@
       if (ena == 1'b1) begin
         if (reg_data_o_vld) begin
           mem[reg_addr] <= reg_data_o;
-        end else if (irq == 1'b1) begin
-          mem[6] <= rsa_c;
         end
       end
     end
