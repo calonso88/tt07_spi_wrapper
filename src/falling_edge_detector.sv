@@ -1,11 +1,11 @@
 module falling_edge_detector (rstb, clk, ena, data, neg_edge);
 
-  input rstb;
-  input clk;
-  input ena;
-  input data;
+  input logic rstb;
+  input logic clk;
+  input logic ena;
+  input logic data;
 
-  output neg_edge;
+  output logic neg_edge;
 
   logic data_dly;
 
