@@ -41,7 +41,7 @@ module spi_reg #(
   // Sample data
   logic spi_data_sample;
   // Assert according to SPI Config
-  always_comb
+  always_comb begin
     if (CPOL == 0) && (CPHA == 0) begin
       spi_data_sample = spi_clk_pos;
     end else if (CPOL == 0) && (CPHA == 1) begin
@@ -53,10 +53,11 @@ module spi_reg #(
     end
   end
 
+
   // Change data
   logic spi_data_change;
   // Assert according to SPI Config
-  always_comb
+  always_comb begin
     if (CPOL == 0) && (CPHA == 0) begin
       spi_data_change = spi_clk_neg;
     end else if (CPOL == 0) && (CPHA == 1) begin
