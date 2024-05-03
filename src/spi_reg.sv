@@ -16,7 +16,11 @@ module spi_reg #(
     output logic [5:0] fastcmd,
     output logic fastcmd_vld
 );
-
+  // SPI Configuration
+  // https://www.zipcores.com/datasheets/spi_slave.pdf - Table on CPOL and CPHA
+  parameter int CPOL = 0;
+  parameter int CPHA = 1;
+  
   // Start of frame - negedge of nss
   logic sof;
   // Pulse on start of frame
@@ -34,7 +38,35 @@ module spi_reg #(
   // Pulse on falling edge of spi_clk
   falling_edge_detector falling_edge_detector_spi_clk (.rstb(nrst), .clk(clk), .ena(1'b1), .data(sclk), .neg_edge(spi_clk_neg));
 
+  // Sample data
+  logic spi_data_sample;
+  // Assert according to SPI Config
+  always_comb
+    if (CPOL == 0) && (CPHA == 0) begin
+      spi_data_sample = spi_clk_pos;
+    end else if (CPOL == 0) && (CPHA == 1) begin
+      spi_data_sample = spi_clk_neg;
+    end else if (CPOL == 1) && (CPHA == 0) begin
+      spi_data_sample = spi_clk_neg;
+    end else if (CPOL == 1) && (CPHA == 1) begin
+      spi_data_sample = spi_clk_pos;
+    end
+  end
 
+  // Change data
+  logic spi_data_change;
+  // Assert according to SPI Config
+  always_comb
+    if (CPOL == 0) && (CPHA == 0) begin
+      spi_data_change = spi_clk_neg;
+    end else if (CPOL == 0) && (CPHA == 1) begin
+      spi_data_change = spi_clk_pos;
+    end else if (CPOL == 1) && (CPHA == 0) begin
+      spi_data_change = spi_clk_pos;
+    end else if (CPOL == 1) && (CPHA == 1) begin
+      spi_data_change = spi_clk_neg;
+    end
+  end
   
   
 logic  mosi1, mosi2;
