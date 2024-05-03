@@ -2,21 +2,41 @@ module spi_reg #(
     parameter int ADDR_W = 3,
     parameter int REG_W = 8
 ) (
-    input logic clk,
-    input logic nrst,
-    input logic mosi,
+    input logic  clk,
+    input logic  nrst,
+    input logic  mosi,
     output logic miso,
-    input logic sclk,
-    input logic nss,
+    input logic  sclk,
+    input logic  nss,
     output logic [ADDR_W-1:0] reg_addr,
-    input logic [REG_W-1:0] reg_data_i,
+    input logic  [REG_W-1:0] reg_data_i,
     output logic [REG_W-1:0] reg_data_o,
-    output logic  reg_data_o_vld,
-    input logic [7:0] status,
+    output logic reg_data_o_vld,
+    input logic  [7:0] status,
     output logic [5:0] fastcmd,
-    output logic  fastcmd_vld
+    output logic fastcmd_vld
 );
 
+  // Start of frame - negedge of nss
+  logic sof;
+  // Pulse on start of frame
+  falling_edge_detector falling_edge_detector_sof (.rstb(nrst), .clk(clk), .ena(1'b1), .data(nss), .neg_edge(sof));
+  // End of frame - posedge of nss
+  logic eof;
+  // Pulse on end of frame
+  rising_edge_detector rising_edge_detector_eof (.rstb(nrst), .clk(clk), .ena(1'b1), .data(nss), .pos_edge(eof));
+  
+  // Pulses on rising and falling edge of spi_clk
+  logic spi_clk_pos;
+  logic spi_clk_neg;
+  // Pulse on rising edge of spi_clk
+  rising_edge_detector rising_edge_detector_spi_clk (.rstb(nrst), .clk(clk), .ena(1'b1), .data(sclk), .pos_edge(spi_clk_pos));
+  // Pulse on falling edge of spi_clk
+  falling_edge_detector falling_edge_detector_spi_clk (.rstb(nrst), .clk(clk), .ena(1'b1), .data(sclk), .neg_edge(spi_clk_neg));
+
+
+  
+  
 logic  mosi1, mosi2;
 logic  sclk1, sclk2, sclk3;
 logic  nss1, nss2, nss3;
