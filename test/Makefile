@@ -5,7 +5,7 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = tt_um_calonso88_spi_trial.v spi_wrapper.sv spi_reg.sv synchronizer.sv
+PROJECT_SOURCES = tt_um_calonso88_spi_trial.v spi_wrapper.sv spi_reg.sv synchronizer.sv falling_edge_detector.sv rising_edge_detector.sv
 
 ifneq ($(GATES),yes)
 
