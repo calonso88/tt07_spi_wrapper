@@ -1,11 +1,11 @@
 module rising_edge_detector (rstb, clk, ena, data, pos_edge);
 
-  input rstb;
-  input clk;
-  input ena;
-  input data;
+  input logic rstb;
+  input logic clk;
+  input logic ena;
+  input logic data;
 
-  output pos_edge;
+  output logic pos_edge;
 
   logic data_dly;
 
