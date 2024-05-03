@@ -18,8 +18,8 @@ module spi_reg #(
 );
   // SPI Configuration
   // https://www.zipcores.com/datasheets/spi_slave.pdf - Table on CPOL and CPHA
-  parameter int CPOL = 0;
-  parameter int CPHA = 1;
+  parameter logic CPOL = 1'b0;
+  parameter logic CPHA = 1'b1;
   
   // Start of frame - negedge of nss
   logic sof;
@@ -40,35 +40,29 @@ module spi_reg #(
 
   // Sample data
   logic spi_data_sample;
-  // Assert according to SPI Config
-  always_comb begin
-    if (CPOL == 0) && (CPHA == 0) begin
-      spi_data_sample = spi_clk_pos;
-    end else if (CPOL == 0) && (CPHA == 1) begin
-      spi_data_sample = spi_clk_neg;
-    end else if (CPOL == 1) && (CPHA == 0) begin
-      spi_data_sample = spi_clk_neg;
-    end else if (CPOL == 1) && (CPHA == 1) begin
-      spi_data_sample = spi_clk_pos;
-    end
-  end
-
-
   // Change data
   logic spi_data_change;
   // Assert according to SPI Config
   always_comb begin
-    if (CPOL == 0) && (CPHA == 0) begin
-      spi_data_change = spi_clk_neg;
-    end else if (CPOL == 0) && (CPHA == 1) begin
-      spi_data_change = spi_clk_pos;
-    end else if (CPOL == 1) && (CPHA == 0) begin
-      spi_data_change = spi_clk_pos;
-    end else if (CPOL == 1) && (CPHA == 1) begin
-      spi_data_change = spi_clk_neg;
-    end
+    case ( {CPOL, CPHA} )
+      2'b00 : begin
+        spi_data_sample = spi_clk_pos;
+        spi_data_change = spi_clk_neg;
+      end
+      2'b01 : begin
+        spi_data_sample = spi_clk_neg;
+        spi_data_change = spi_clk_pos;
+      end
+      2'b10 : begin
+        spi_data_sample = spi_clk_neg;
+        spi_data_change = spi_clk_pos;
+      end
+      2'b11 : begin
+        spi_data_sample = spi_clk_pos;
+        spi_data_change = spi_clk_neg;
+      end 
+    endcase
   end
-  
   
 logic  mosi1, mosi2;
 logic  sclk1, sclk2, sclk3;
