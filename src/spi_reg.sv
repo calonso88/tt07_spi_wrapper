@@ -16,6 +16,12 @@ module spi_reg #(
     output logic [5:0] fastcmd,
     output logic fastcmd_vld
 );
+
+  logic ena;
+  assign ena = 1'b1;
+  logic rstb;
+  assign rstb = nrst;
+
   // SPI Configuration
   // https://www.zipcores.com/datasheets/spi_slave.pdf - Table on CPOL and CPHA
   parameter logic CPOL = 1'b0;
@@ -24,19 +30,19 @@ module spi_reg #(
   // Start of frame - negedge of nss
   logic sof;
   // Pulse on start of frame
-  falling_edge_detector falling_edge_detector_sof (.rstb(nrst), .clk(clk), .ena(1'b1), .data(nss), .neg_edge(sof));
+  falling_edge_detector falling_edge_detector_sof (.rstb(nrst), .clk(clk), .ena(ena), .data(nss), .neg_edge(sof));
   // End of frame - posedge of nss
   logic eof;
   // Pulse on end of frame
-  rising_edge_detector rising_edge_detector_eof (.rstb(nrst), .clk(clk), .ena(1'b1), .data(nss), .pos_edge(eof));
+  rising_edge_detector rising_edge_detector_eof (.rstb(nrst), .clk(clk), .ena(ena), .data(nss), .pos_edge(eof));
   
   // Pulses on rising and falling edge of spi_clk
   logic spi_clk_pos;
   logic spi_clk_neg;
   // Pulse on rising edge of spi_clk
-  rising_edge_detector rising_edge_detector_spi_clk (.rstb(nrst), .clk(clk), .ena(1'b1), .data(sclk), .pos_edge(spi_clk_pos));
+  rising_edge_detector rising_edge_detector_spi_clk (.rstb(nrst), .clk(clk), .ena(ena), .data(sclk), .pos_edge(spi_clk_pos));
   // Pulse on falling edge of spi_clk
-  falling_edge_detector falling_edge_detector_spi_clk (.rstb(nrst), .clk(clk), .ena(1'b1), .data(sclk), .neg_edge(spi_clk_neg));
+  falling_edge_detector falling_edge_detector_spi_clk (.rstb(nrst), .clk(clk), .ena(ena), .data(sclk), .neg_edge(spi_clk_neg));
 
   // Sample data
   logic spi_data_sample;
@@ -64,8 +70,6 @@ module spi_reg #(
     endcase
   end
 
-  logic ena;
-  assign ena = 1'b1;
     
   // FSM states type
   typedef enum logic [2:0] {
@@ -85,29 +89,23 @@ module spi_reg #(
       end
     end
   end
-  
-  always_comb begin
 
+  // Next state logic
+  always_comb begin
     // default assignments
     next_state = state;
-
     case (state)
-
       STATE_IDLE : begin
         if (sof == 1'b1) begin
           next_state = STATE_ACTIVE;
         end
       end
-
       STATE_ACTIVE : begin
         if (eof == 1'b1) begin
           next_state = STATE_IDLE;
         end
       end
-
     endcase
-
-
   end
 
 logic  mosi1, mosi2;
