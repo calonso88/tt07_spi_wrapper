@@ -102,7 +102,7 @@ module spi_reg #(
     sample_addr = 1'b0;
     sample_data = 1'b0;
 
-    case (state)
+    case (state_new)
       STATE_IDLE : begin
         if (sof == 1'b1) begin
           next_state = STATE_ADDR;
