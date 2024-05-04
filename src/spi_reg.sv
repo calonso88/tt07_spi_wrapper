@@ -110,7 +110,7 @@ module spi_reg #(
       end
       STATE_ADDR : begin
         rx_buffer_shift_en = 1'b1;
-        if (rx_buffer_counter == 3'd7) begin
+        if (rx_buffer_counter == 3'd8) begin
           sample_addr = 1'b1;
           next_state = STATE_DATA;
         end else if (eof == 1'b1) begin
@@ -119,7 +119,7 @@ module spi_reg #(
       end
       STATE_DATA : begin
         rx_buffer_shift_en = 1'b1;
-        if (rx_buffer_counter == 3'd7) begin
+        if (rx_buffer_counter == 3'd8) begin
           sample_data = 1'b1;
           next_state = STATE_IDLE;
         end else if (eof == 1'b1) begin
@@ -148,7 +148,7 @@ module spi_reg #(
   end
 
   // General counter
-  logic [2:0] rx_buffer_counter;
+  logic [3:0] rx_buffer_counter;
     
   // RX Buffer
   always_ff @(negedge(rstb) or posedge(clk)) begin
@@ -156,7 +156,7 @@ module spi_reg #(
       rx_buffer_counter <= '0;
     end else begin
       if (ena == 1'b1) begin
-        if (rx_buffer_counter == 3'd7) begin
+        if (rx_buffer_counter == 4'd8) begin
           rx_buffer_counter <= '0;
         end else if (spi_data_sample == 1'b1) begin
           rx_buffer_counter <= rx_buffer_counter + 1'b1;
@@ -182,7 +182,7 @@ module spi_reg #(
   end
   
   // Data register and data valid strobe
-  logic [ADDR_W-1:0] data;
+  logic [REG_W-1:0] data;
   logic dv;
 
   // Data Register
