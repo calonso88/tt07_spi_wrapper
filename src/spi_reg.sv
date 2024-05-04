@@ -138,8 +138,10 @@ module spi_reg #(
       rx_buffer <= '0;
     end else begin
       if (ena == 1'b1) begin
-        if (rx_buffer_shift_en == 1'b1) && (spi_data_sample == 1'b1) begin
-          rx_buffer <= {rx_buffer[REG_W-2:0], mosi};
+        if (rx_buffer_shift_en == 1'b1) begin
+          if (spi_data_sample == 1'b1) begin
+            rx_buffer <= {rx_buffer[REG_W-2:0], mosi};
+          end
         end
       end
     end
