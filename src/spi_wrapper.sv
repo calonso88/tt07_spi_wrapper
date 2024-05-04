@@ -15,23 +15,6 @@
   // Address width for register bank
   localparam int ADDR_WIDTH = $clog2(NUM_REGS);
   localparam int REG_WIDTH = WIDTH;
-
-
-) (
-    input  logic clk,
-    input  logic rstb,
-    input  logic ena,
-    input  logic spi_mosi,
-    output logic spi_miso,
-    input  logic spi_clk,
-    input  logic spi_cs_n,
-    output logic [ADDR_W-1:0] reg_addr,
-    input  logic [REG_W-1:0] reg_data_i,
-    output logic [REG_W-1:0] reg_data_o,
-    output logic reg_data_o_dv,
-    input  logic [7:0] status
-);
-
     
   // Auxiliar variables for SPIREG
   logic [ADDR_WIDTH-1:0] reg_addr;
