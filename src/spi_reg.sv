@@ -20,7 +20,7 @@ module spi_reg #(
   // https://www.zipcores.com/datasheets/spi_slave.pdf - Table on CPOL and CPHA
   parameter logic CPOL = 1'b0;
   parameter logic CPHA = 1'b1;
-  
+
   // Start of frame - negedge of nss
   logic sof;
   // Pulse on start of frame
@@ -63,7 +63,29 @@ module spi_reg #(
       end 
     endcase
   end
-  
+
+  logic ena;
+  assign ena = 1'b1;
+    
+  // FSM states type
+  typedef enum logic [2:0] {
+    STATE_IDLE, STATE_ACTIVE
+  } fsm_state;
+
+  // FSM states
+  fsm_state state, next_state;
+
+  // Next state transition
+  always_ff @(negedge(rstb) or posedge(clk)) begin
+    if (!rstb) begin
+      state <= STATE_IDLE;
+    end else begin
+      if (ena == 1'b1) begin
+        state <= next_state;
+      end
+    end
+  end
+
 logic  mosi1, mosi2;
 logic  sclk1, sclk2, sclk3;
 logic  nss1, nss2, nss3;
