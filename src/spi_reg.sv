@@ -124,6 +124,7 @@ module spi_reg #(
           next_state = STATE_IDLE;
         end else if (eof == 1'b1) begin
           next_state = STATE_IDLE;
+        end
       end
     endcase
   end
