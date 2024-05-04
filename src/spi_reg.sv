@@ -110,7 +110,7 @@ module spi_reg #(
       end
       STATE_ADDR : begin
         rx_buffer_shift_en = 1'b1;
-        if (rx_buffer_counter == 3'd8) begin
+        if (rx_buffer_counter == 4'd8) begin
           sample_addr = 1'b1;
           next_state = STATE_DATA;
         end else if (eof == 1'b1) begin
@@ -119,7 +119,7 @@ module spi_reg #(
       end
       STATE_DATA : begin
         rx_buffer_shift_en = 1'b1;
-        if (rx_buffer_counter == 3'd8) begin
+        if (rx_buffer_counter == 4'd8) begin
           sample_data = 1'b1;
           next_state = STATE_IDLE;
         end else if (eof == 1'b1) begin
