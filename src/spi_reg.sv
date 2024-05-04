@@ -210,13 +210,13 @@ module spi_reg #(
   // TX Buffer
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
-      tx_buffer <= 8'hAA;
+      tx_buffer <= '0;
     end else begin
       if (ena == 1'b1) begin
         if (sof == 1'b1) begin
           tx_buffer <= status;
         end else if (sample_addr == 1'b1) begin
-          tx_buffer <= 8'd55;
+          tx_buffer <= reg_data_i;
         end else if (spi_data_change == 1'b1) begin
           tx_buffer <= {tx_buffer[REG_W-2:0], 1'b0};
         end
