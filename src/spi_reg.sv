@@ -90,24 +90,51 @@ module spi_reg #(
     end
   end
 
+  logic rx_buffer_shift_en;
+    
   // Next state logic
   always_comb begin
     // default assignments
     next_state = state;
+    rx_buffer_shift_en = 1'b0;
+
     case (state)
       STATE_IDLE : begin
+        rx_buffer_shift_en = 1'b0;
         if (sof == 1'b1) begin
           next_state = STATE_ACTIVE;
         end
       end
       STATE_ACTIVE : begin
+        rx_buffer_shift_en = 1'b1;
         if (eof == 1'b1) begin
+          rx_buffer_shift_en = 1'b0;
           next_state = STATE_IDLE;
         end
       end
     endcase
   end
 
+  // RX Buffer
+  logic [REG_W-1:0] rx_buffer;
+    
+  // RX Buffer
+  always_ff @(negedge(rstb) or posedge(clk)) begin
+    if (!rstb) begin
+      rx_buffer <= '0;
+    end else begin
+        if (ena == 1'b1) begin
+          if (rx_buffer_shift_en == 1'b1) begin
+            rx_buffer <= {rx_buffer[REG_W-2:0], mosi};
+          end
+        end
+      end
+    end
+  end
+
+    
+    
+    
 logic  mosi1, mosi2;
 logic  sclk1, sclk2, sclk3;
 logic  nss1, nss2, nss3;
