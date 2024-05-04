@@ -105,7 +105,7 @@ module spi_reg #(
     case (state)
       STATE_IDLE : begin
         if (sof == 1'b1) begin
-          next_state = STATE_ACTIVE;
+          next_state = STATE_ADDR;
         end
       end
       STATE_ADDR : begin
