@@ -167,15 +167,18 @@ module spi_reg #(
 
   // Addr register
   logic [ADDR_W-1:0] addr;
+  logic reg_rw;
       
   // Addr Register
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
       addr <= '0;
+      reg_rw <= '0;
     end else begin
       if (ena == 1'b1) begin
         if (sample_addr == 1'b1) begin
           addr <= rx_buffer[ADDR_W-1:0];
+          reg_rw <= rx_buffer[REG_W];
         end
       end
     end
@@ -195,12 +198,12 @@ module spi_reg #(
         dv <= '0;
         if (sample_data == 1'b1) begin
           data <= rx_buffer;
-          dv <= 1'b1;
+          dv <= (1'b1 & reg_rw);
         end
       end
     end
   end
-      
+
 logic  mosi1, mosi2;
 logic  sclk1, sclk2, sclk3;
 logic  nss1, nss2, nss3;
