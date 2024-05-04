@@ -77,15 +77,15 @@ module spi_reg #(
   } fsm_state;
 
   // FSM states
-  fsm_state state, next_state;
+  fsm_state state_new, next_state;
 
   // Next state transition
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
-      state <= STATE_IDLE;
+      state_new <= STATE_IDLE;
     end else begin
       if (ena == 1'b1) begin
-        state <= next_state;
+        state_new <= next_state;
       end
     end
   end
@@ -97,7 +97,7 @@ module spi_reg #(
   // Next state logic
   always_comb begin
     // default assignments
-    next_state = state;
+    next_state = state_new;
     rx_buffer_shift_en = 1'b0;
     sample_addr = 1'b0;
     sample_data = 1'b0;
