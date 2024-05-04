@@ -178,7 +178,7 @@ module spi_reg #(
       if (ena == 1'b1) begin
         if (sample_addr == 1'b1) begin
           addr <= rx_buffer[ADDR_W-1:0];
-          reg_rw <= rx_buffer[REG_W];
+            reg_rw <= rx_buffer[REG_W-1];
         end
       end
     end
