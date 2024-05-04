@@ -165,7 +165,7 @@ module spi_reg #(
     end
   end    
 
-  // General counter
+  // Addr register
   logic [ADDR_W-1:0] addr;
       
   // Addr Register
@@ -179,9 +179,27 @@ module spi_reg #(
         end
       end
     end
-  end    
+  end
   
+  // Data register and data valid strobe
+  logic [ADDR_W-1:0] data;
+  logic dv;
 
+  // Data Register
+  always_ff @(negedge(rstb) or posedge(clk)) begin
+    if (!rstb) begin
+      data <= '0;
+      dv <= '0;
+    end else begin
+      if (ena == 1'b1) begin
+        dv <= '0;
+        if (sample_data == 1'b1) begin
+          data <= rx_buffer;
+          dv <= 1'b1;
+        end
+      end
+    end
+  end
       
 logic  mosi1, mosi2;
 logic  sclk1, sclk2, sclk3;
