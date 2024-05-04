@@ -16,6 +16,23 @@
   localparam int ADDR_WIDTH = $clog2(NUM_REGS);
   localparam int REG_WIDTH = WIDTH;
 
+
+) (
+    input  logic clk,
+    input  logic rstb,
+    input  logic ena,
+    input  logic spi_mosi,
+    output logic spi_miso,
+    input  logic spi_clk,
+    input  logic spi_cs_n,
+    output logic [ADDR_W-1:0] reg_addr,
+    input  logic [REG_W-1:0] reg_data_i,
+    output logic [REG_W-1:0] reg_data_o,
+    output logic reg_data_o_dv,
+    input  logic [7:0] status
+);
+
+    
   // Auxiliar variables for SPIREG
   logic [ADDR_WIDTH-1:0] reg_addr;
   logic [REG_WIDTH-1:0] reg_data_i, reg_data_o;
@@ -29,18 +46,17 @@
     .REG_W(REG_WIDTH)
   ) spi_reg_inst (
     .clk(clk),
-    .nrst(rstb),
-    .mosi(spi_mosi),
-    .miso(spi_miso),
-    .sclk(spi_clk),
-    .nss(spi_cs_n),
+    .rstb(rstb),
+    .ena(ena),
+    .spi_mosi(spi_mosi),
+    .spi_miso(spi_miso),
+    .spi_clk(spi_clk),
+    .spi_cs_n(spi_cs_n),
     .reg_addr(reg_addr),
     .reg_data_i(reg_data_i),
     .reg_data_o(reg_data_o),
-    .reg_data_o_vld(reg_data_o_vld),
-    .status('0),
-    .fastcmd(),
-    .fastcmd_vld()
+    .reg_data_o_dv(reg_data_o_vld),
+    .status('0)
   );
 
   // Register read access
