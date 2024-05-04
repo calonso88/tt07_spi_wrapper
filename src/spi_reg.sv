@@ -204,6 +204,25 @@ module spi_reg #(
     end
   end
 
+  // TX Buffer
+  logic [REG_W-1:0] tx_buffer;
+    
+  // TX Buffer
+  always_ff @(negedge(rstb) or posedge(clk)) begin
+    if (!rstb) begin
+      tx_buffer <= 8'hAA;
+    end else begin
+      if (ena == 1'b1) begin
+        /*if (tx_buffer_load == 1'b1) begin
+          tx_buffer <= status;
+        end else */
+        if (spi_data_change == 1'b1) begin
+          tx_buffer <= {tx_buffer[REG_W-2:0], 1'b0};
+        end
+      end
+    end
+  end
+
 logic  mosi1, mosi2;
 logic  sclk1, sclk2, sclk3;
 logic  nss1, nss2, nss3;
