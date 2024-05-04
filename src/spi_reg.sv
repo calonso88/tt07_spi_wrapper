@@ -85,6 +85,30 @@ module spi_reg #(
       end
     end
   end
+  
+  always_comb begin
+
+    // default assignments
+    next_state = state;
+
+    case (state)
+
+      STATE_IDLE : begin
+        if (sof == 1'b1) begin
+          next_state = STATE_ACTIVE;
+        end
+      end
+
+      STATE_ACTIVE : begin
+        if (eof == 1'b1) begin
+          next_state = STATE_IDLE;
+        end
+      end
+
+    endcase
+
+
+  end
 
 logic  mosi1, mosi2;
 logic  sclk1, sclk2, sclk3;
