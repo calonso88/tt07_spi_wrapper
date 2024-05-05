@@ -21,7 +21,9 @@ module tt_um_calonso88_spi_trial (
   wire spi_clk;
   wire spi_miso;
   wire spi_mosi;
-
+  wire cpol;
+  wire cpha;
+    
   // Sync'ed
   wire spi_cs_n_sync;
   wire spi_clk_sync;
