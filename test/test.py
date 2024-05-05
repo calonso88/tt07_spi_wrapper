@@ -105,45 +105,45 @@ async def spi_write (clk, port, address, data):
   await ClockCycles(clk, 10)  
 
 
-async def spi_read (dut, address, data):
+async def spi_read (clk, port_in, port_out, address, data):
   
-  await ClockCycles(dut.clk, 10)
-  pull_cs_high(dut)
-  await ClockCycles(dut.clk, 10)
-  pull_cs_low(dut)
-  await ClockCycles(dut.clk, 10)
+  await ClockCycles(clk, 10)
+  pull_cs_high(port_in)
+  await ClockCycles(clk, 10)
+  pull_cs_low(port_in)
+  await ClockCycles(clk, 10)
   
   # Read command bit - bit 7 - MSBIT in first byte
-  spi_mosi_low(dut)
-  await ClockCycles(dut.clk, 10)
-  spi_clk_high(dut)
-  await ClockCycles(dut.clk, 10)
-  spi_clk_low(dut)
+  spi_mosi_low(port_in)
+  await ClockCycles(clk, 10)
+  spi_clk_high(port_in)
+  await ClockCycles(clk, 10)
+  spi_clk_low(port_in)
 
   iterator = 0
   while iterator < 4:
     # Don't care - bit 6, bit 5, bit 4 and bit 3
-    await ClockCycles(dut.clk, 10)
-    spi_mosi_low(dut)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_high(dut)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_low(dut)
+    await ClockCycles(clk, 10)
+    spi_mosi_low(port_in)
+    await ClockCycles(clk, 10)
+    spi_clk_high(port_in)
+    await ClockCycles(clk, 10)
+    spi_clk_low(port_in)
     iterator += 1
   
   iterator = 2
   while iterator >= 0:
     # Address[iterator] - bit 2, bit 1 and bit 0
-    await ClockCycles(dut.clk, 10)
+    await ClockCycles(clk, 10)
     address_bit = get_bit(address, iterator)
     if (address_bit == 0):
-      spi_mosi_low(dut)
+      spi_mosi_low(port_in)
     else:
-      spi_mosi_high(dut)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_high(dut)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_low(dut)
+      spi_mosi_high(port_in)
+    await ClockCycles(clk, 10)
+    spi_clk_high(port_in)
+    await ClockCycles(clk, 10)
+    spi_clk_low(port_in)
     iterator -= 1
 
   miso_byte = 0
@@ -152,23 +152,23 @@ async def spi_read (dut, address, data):
   iterator = 7
   while iterator >= 0:
     # Data[iterator]
-    await ClockCycles(dut.clk, 10)
+    await ClockCycles(clk, 10)
     data_bit = get_bit(data, iterator)
     if (data_bit == 0):
-      spi_mosi_low(dut)
+      spi_mosi_low(port_in)
     else:
-      spi_mosi_high(dut)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_high(dut)
-    miso_bit = spi_miso_read(dut)
+      spi_mosi_high(port_in)
+    await ClockCycles(clk, 10)
+    spi_clk_high(port_in)
+    miso_bit = spi_miso_read(port_out)
     miso_byte = miso_byte | (miso_bit << iterator)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_low(dut)
+    await ClockCycles(clk, 10)
+    spi_clk_low(port_in)
     iterator -= 1
 
-  await ClockCycles(dut.clk, 10)
-  pull_cs_high(dut)
-  await ClockCycles(dut.clk, 10)
+  await ClockCycles(clk, 10)
+  pull_cs_high(port_in)
+  await ClockCycles(clk, 10)
 
   return miso_byte
 
@@ -212,21 +212,21 @@ async def test_project(dut):
     await spi_write (dut.clk, dut.ui_in, 7, 0x0F)
   
     # Read reg[0]
-    reg0 = await spi_read (dut, 0, 0x00)
+    reg0 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 0, 0x00)
     # Read reg[1]
-    reg1 = await spi_read (dut, 1, 0x00)
+    reg1 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 1, 0x00)
     # Read reg[2]
-    reg2 = await spi_read (dut, 2, 0x00)
+    reg2 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 2, 0x00)
     # Read reg[3]
-    reg3 = await spi_read (dut, 3, 0x00)
+    reg3 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 3, 0x00)
     # Read reg[4]
-    reg4 = await spi_read (dut, 4, 0x00)
+    reg4 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 4, 0x00)
     # Read reg[5]
-    reg5 = await spi_read (dut, 5, 0x00)
+    reg5 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 5, 0x00)
     # Read reg[6]
-    reg6 = await spi_read (dut, 6, 0x00)
+    reg6 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 6, 0x00)
     # Read reg[7]
-    reg7 = await spi_read (dut, 7, 0x00)
+    reg7 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 7, 0x00)
 
     await ClockCycles(dut.clk, 10)
 
