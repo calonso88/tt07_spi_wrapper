@@ -6,140 +6,103 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 
 def get_bit(value, bit_index):
-  #cocotb.log.info(f"Into get_bit function")
-  #cocotb.log.info(f"Value: {value}, Bit index: {bit_index}")
   temp = value & (1 << bit_index)
-  #cocotb.log.info(f"Temp: {temp}")
   return temp
 
 def set_bit(value, bit_index):
-  #cocotb.log.info(f"Into set_bit function")
-  #cocotb.log.info(f"Value: {value}, Bit index: {bit_index}")
   temp = value | (1 << bit_index)
-  #cocotb.log.info(f"Temp: {temp}")
   return temp
 
 def clear_bit(value, bit_index):
-  #cocotb.log.info(f"Into clear_bit function")
-  #cocotb.log.info(f"Value: {value}, Bit index: {bit_index}")
   temp = value & ~(1 << bit_index)
-  #cocotb.log.info(f"Temp: {temp}")
   return temp
 
-def pull_cs_high(dut):
-  #dut.ui_in.value = 0x1
-  #dut.ui_in.value = dut.ui_in.value | (0x1)
-  #cocotb.log.info(f"Into pull_cs_high function")
-  temp = set_bit(dut.ui_in.value, 0)
-  #cocotb.log.info(f"Temp: {temp}")
-  dut.ui_in.value = temp
+def pull_cs_high(port):
+  temp = set_bit(port.value, 0)
+  port.value = temp
 
-def pull_cs_low(dut):
-  #dut.ui_in.value = 0x0
-  #dut.ui_in.value = dut.ui_in.value & ~(0x1)
-  #cocotb.log.info(f"Into pull_cs_low function")
-  temp = clear_bit(dut.ui_in.value, 0)
-  #cocotb.log.info(f"Temp: {temp}")
-  dut.ui_in.value = temp
+def pull_cs_low(port):
+  temp = clear_bit(port.value, 0)
+  port.value = temp
 
-def spi_clk_high(dut):
-  #dut.ui_in.value = 0x2
-  #dut.ui_in.value = dut.ui_in.value | (0x2)
-  #cocotb.log.info(f"Into spi_clk_high function")
-  temp = set_bit(dut.ui_in.value, 1)
-  #cocotb.log.info(f"Temp: {temp}")
-  dut.ui_in.value = temp
+def spi_clk_high(port):
+  temp = set_bit(port.value, 1)
+  port.value = temp
 
-def spi_clk_low(dut):
-  #dut.ui_in.value = 0x0
-  #dut.ui_in.value = dut.ui_in.value & ~(0x2)
-  #cocotb.log.info(f"Into spi_clk_low function")
-  temp = clear_bit(dut.ui_in.value, 1)
-  #cocotb.log.info(f"Temp: {temp}")
-  dut.ui_in.value = temp
+def spi_clk_low(port):
+  temp = clear_bit(port.value, 1)
+  port.value = temp
 
-def spi_mosi_high(dut):
-  #dut.ui_in.value = 0x4
-  #dut.ui_in.value = dut.ui_in.value | (0x4)
-  #cocotb.log.info(f"Into spi_mosi_high function")
-  #cocotb.log.info(f"Input value: {dut.ui_in.value}")
-  temp = set_bit(dut.ui_in.value, 2)
-  #cocotb.log.info(f"Temp: {temp}")
-  dut.ui_in.value = temp
+def spi_mosi_high(port):
+  temp = set_bit(port.value, 2)
+  port.value = temp
 
-def spi_mosi_low(dut):
-  #dut.ui_in.value = 0x0
-  #dut.ui_in.value = dut.ui_in.value & ~(0x4)
-  #cocotb.log.info(f"Into spi_mosi_low function")
-  temp = clear_bit(dut.ui_in.value, 2)
-  #cocotb.log.info(f"Temp: {temp}")
-  dut.ui_in.value = temp
+def spi_mosi_low(port):
+  temp = clear_bit(port.value, 2)
+  port.value = temp
 
 def spi_miso_read(dut):
-  #cocotb.log.info(f"Into spi_miso_read function")
-  #cocotb.log.info(f"MISO VALUE: {dut.uo_out.value}")
-  #cocotb.log.info(f"OUTPUT of function VALUE: { (get_bit (dut.uo_out.value, 3) >> 3)  }")
   return (get_bit (dut.uo_out.value, 3) >> 3)
 
-async def spi_write (dut, address, data):
+async def spi_write (clk, port, address, data):
   
-  await ClockCycles(dut.clk, 10)
-  pull_cs_high(dut)
-  await ClockCycles(dut.clk, 10)
-  pull_cs_low(dut)
-  await ClockCycles(dut.clk, 10)
+  await ClockCycles(clk, 10)
+  pull_cs_high(port)
+  await ClockCycles(clk, 10)
+  pull_cs_low(port)
+  await ClockCycles(clk, 10)
   
   # Write command bit - bit 7 - MSBIT in first byte
-  spi_mosi_high(dut)
-  await ClockCycles(dut.clk, 10)
-  spi_clk_high(dut)
-  await ClockCycles(dut.clk, 10)
-  spi_clk_low(dut)
+  spi_mosi_high(port)
+  await ClockCycles(clk, 10)
+  spi_clk_high(port)
+  await ClockCycles(clk, 10)
+  spi_clk_low(port)
   
   iterator = 0
   while iterator < 4:
     # Don't care - bit 6, bit 5, bit 4 and bit 3
-    await ClockCycles(dut.clk, 10)
-    spi_mosi_low(dut)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_high(dut)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_low(dut)
+    await ClockCycles(clk, 10)
+    spi_mosi_low(port)
+    await ClockCycles(clk, 10)
+    spi_clk_high(port)
+    await ClockCycles(clk, 10)
+    spi_clk_low(port)
     iterator += 1
 
   iterator = 2
   while iterator >= 0:
     # Address[iterator] - bit 2, bit 1 and bit 0
-    await ClockCycles(dut.clk, 10)
+    await ClockCycles(clk, 10)
     address_bit = get_bit(address, iterator)
     if (address_bit == 0):
-      spi_mosi_low(dut)
+      spi_mosi_low(port)
     else:
-      spi_mosi_high(dut)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_high(dut)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_low(dut)
+      spi_mosi_high(port)
+    await ClockCycles(clk, 10)
+    spi_clk_high(port)
+    await ClockCycles(clk, 10)
+    spi_clk_low(port)
     iterator -= 1
 
   iterator = 7
   while iterator >= 0:
     # Data[iterator]
-    await ClockCycles(dut.clk, 10)
+    await ClockCycles(clk, 10)
     data_bit = get_bit(data, iterator)
     if (data_bit == 0):
-      spi_mosi_low(dut)
+      spi_mosi_low(port)
     else:
-      spi_mosi_high(dut)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_high(dut)
-    await ClockCycles(dut.clk, 10)
-    spi_clk_low(dut)
+      spi_mosi_high(port)
+    await ClockCycles(clk, 10)
+    spi_clk_high(port)
+    await ClockCycles(clk, 10)
+    spi_clk_low(port)
     iterator -= 1
 
-  await ClockCycles(dut.clk, 10)
-  pull_cs_high(dut)
-  await ClockCycles(dut.clk, 10)  
+  await ClockCycles(clk, 10)
+  pull_cs_high(port)
+  await ClockCycles(clk, 10)  
 
 
 async def spi_read (dut, address, data):
@@ -232,21 +195,21 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 10)
 
     # Write reg[0] = 0xF0
-    await spi_write (dut, 0, 0xF0)
+    await spi_write (dut.clk, dut.ui_in, 0, 0xF0)
     # Write reg[1] = 0xDE
-    await spi_write (dut, 1, 0xDE)
+    await spi_write (dut.clk, dut.ui_in, 1, 0xDE)
     # Write reg[2] = 0xAD
-    await spi_write (dut, 2, 0xAD)
+    await spi_write (dut.clk, dut.ui_in, 2, 0xAD)
     # Write reg[3] = 0xBE
-    await spi_write (dut, 3, 0xBE)
+    await spi_write (dut.clk, dut.ui_in, 3, 0xBE)
     # Write reg[4] = 0xEF
-    await spi_write (dut, 4, 0xEF)
+    await spi_write (dut.clk, dut.ui_in, 4, 0xEF)
     # Write reg[5] = 0x55
-    await spi_write (dut, 5, 0x55)
+    await spi_write (dut.clk, dut.ui_in, 5, 0x55)
     # Write reg[6] = 0xAA
-    await spi_write (dut, 6, 0xAA)
+    await spi_write (dut.clk, dut.ui_in, 6, 0xAA)
     # Write reg[7] = 0x0F
-    await spi_write (dut, 7, 0x0F)
+    await spi_write (dut.clk, dut.ui_in, 7, 0x0F)
   
     # Read reg[0]
     reg0 = await spi_read (dut, 0, 0x00)
