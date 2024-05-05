@@ -24,7 +24,7 @@ module spi_reg #(
 
   // SPI Configuration
   // https://www.zipcores.com/datasheets/spi_slave.pdf - Table on CPOL and CPHA
-  parameter logic CPOL = 1'b1;
+  parameter logic CPOL = 1'b0;
   parameter logic CPHA = 1'b1;
 
   // Start of frame - negedge of spi_cs_n
