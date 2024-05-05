@@ -228,6 +228,12 @@ async def test_project(dut):
     # Wait for one clock cycle to see the output values
     await ClockCycles(dut.clk, 10)
 
+    # Config CPOL and CPHA
+    CPOL = 0
+    CPHA = 1
+    dut.ui_in.value = ((CPHA << 4) + (CPOL << 3))
+    await ClockCycles(dut.clk, 10)
+  
     # Write reg[0] = 0xF0
     await spi_write (dut.clk, dut.ui_in, 0, 0xF0)
     # Write reg[1] = 0xDE
