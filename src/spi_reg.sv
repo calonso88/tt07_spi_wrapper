@@ -73,7 +73,7 @@ module spi_reg #(
     
   // FSM states type
   typedef enum logic [2:0] {
-    STATE_IDLE, STATE_ADDR, STATE_CMD, STATE_DATA
+    STATE_IDLE, STATE_ADDR, STATE_CMD, STATE_RX_DATA, STATE_TX_DATA
   } fsm_state;
 
   // FSM states
@@ -92,6 +92,7 @@ module spi_reg #(
 
   // Sample addr and data
   logic rx_buffer_shift_en;
+  logic tx_buffer_load;
   logic sample_addr;
   logic sample_data;
     
