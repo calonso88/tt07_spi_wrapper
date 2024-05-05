@@ -41,8 +41,8 @@ def spi_mosi_low(port):
   temp = clear_bit(port.value, 2)
   port.value = temp
 
-def spi_miso_read(dut):
-  return (get_bit (dut.uo_out.value, 3) >> 3)
+def spi_miso_read(port):
+  return (get_bit (port.value, 3) >> 3)
 
 async def spi_write (clk, port, address, data):
   
