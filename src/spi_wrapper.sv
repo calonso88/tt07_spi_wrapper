@@ -1,9 +1,10 @@
-  module spi_wrapper #(parameter int NUM_REGS = 8, parameter int WIDTH = 8) (rstb, clk, ena, spi_cs_n, spi_clk, spi_mosi, spi_miso, config_regs, status_regs);
+module spi_wrapper #(parameter int NUM_REGS = 8, parameter int WIDTH = 8) (rstb, clk, ena, mode, spi_cs_n, spi_clk, spi_mosi, spi_miso, config_regs, status_regs);
 
   input logic rstb;
   input logic clk;
   input logic ena;
 
+  input logic [1:0] mode;
   input logic spi_cs_n;
   input logic spi_clk;
   input logic spi_mosi;
@@ -31,6 +32,7 @@
     .clk(clk),
     .rstb(rstb),
     .ena(ena),
+    .mode(mode),
     .spi_mosi(spi_mosi),
     .spi_miso(spi_miso),
     .spi_clk(spi_clk),
