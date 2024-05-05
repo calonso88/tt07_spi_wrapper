@@ -122,9 +122,9 @@ module spi_reg #(
       end
       STATE_CMD : begin
         if (reg_rw == 1'b0) begin
-          next_state = STATE_RX_DATA;
-        end else if (reg_rw == 1'b1) begin
           next_state = STATE_TX_DATA;
+        end else if (reg_rw == 1'b1) begin
+          next_state = STATE_RX_DATA;
         end else if (eof == 1'b1) begin
           next_state = STATE_IDLE;
         end
