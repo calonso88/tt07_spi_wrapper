@@ -26,6 +26,8 @@ module tt_um_calonso88_spi_trial (
   wire spi_cs_n_sync;
   wire spi_clk_sync;
   wire spi_mosi_sync;
+  wire cpol_sync;
+  wire cpha_sync;
   
   // Regs Width
   localparam int NUM_REGS = 8;
@@ -48,13 +50,17 @@ module tt_um_calonso88_spi_trial (
   assign spi_cs_n   = ui_in[0];
   assign spi_clk    = ui_in[1];
   assign spi_mosi   = ui_in[2];
+  assign cpol       = ui_in[3];
+  assign cpha       = ui_in[4];
 
   // Synchronizers
   synchronizer #(.WIDTH(1)) synchronizer_spi_cs_n_inst (.rstb(rst_n), .clk(clk), .ena(ena), .data_in(spi_cs_n), .data_out(spi_cs_n_sync));
   synchronizer #(.WIDTH(1)) synchronizer_spi_clk_inst  (.rstb(rst_n), .clk(clk), .ena(ena), .data_in(spi_clk),  .data_out(spi_clk_sync));
   synchronizer #(.WIDTH(1)) synchronizer_spi_mosi_inst (.rstb(rst_n), .clk(clk), .ena(ena), .data_in(spi_mosi), .data_out(spi_mosi_sync));
+  synchronizer #(.WIDTH(1)) synchronizer_spi_mode_cpol (.rstb(rst_n), .clk(clk), .ena(ena), .data_in(cpol), .data_out(cpol_sync));
+  synchronizer #(.WIDTH(1)) synchronizer_spi_mode_cpha (.rstb(rst_n), .clk(clk), .ena(ena), .data_in(cpha), .data_out(cpha_sync));
 
   // SPI wrapper
-  spi_wrapper #(.NUM_REGS(NUM_REGS), .WIDTH(REG_WIDTH)) spi_wrapper_i (.rstb(rst_n), .clk(clk), .ena(ena), .spi_cs_n(spi_cs_n_sync), .spi_clk(spi_clk_sync), .spi_mosi(spi_mosi_sync), .spi_miso(spi_miso), .config_regs(), .status_regs());
+  spi_wrapper #(.NUM_REGS(NUM_REGS), .WIDTH(REG_WIDTH)) spi_wrapper_i (.rstb(rst_n), .clk(clk), .ena(ena), .mode({cpol_sync, cpah_sync}).spi_cs_n(spi_cs_n_sync), .spi_clk(spi_clk_sync), .spi_mosi(spi_mosi_sync), .spi_miso(spi_miso), .config_regs(), .status_regs());
 
 endmodule
