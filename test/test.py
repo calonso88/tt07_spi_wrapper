@@ -114,19 +114,19 @@ async def spi_write (clk, port, address, data):
 async def spi_read (clk, port_in, port_out, address, data):
   
   temp = pull_cs_high(port_in)
-  port.value = temp
+  port_in.value = temp
   await ClockCycles(clk, 10)
   temp = pull_cs_low(port_in)
-  port.value = temp
+  port_in.value = temp
   await ClockCycles(clk, 10)
   
   # Read command bit - bit 7 - MSBIT in first byte
   temp = spi_clk_high(port_in)
   temp2 = spi_mosi_low(port_in)
-  port.value = (temp | temp2)
+  port_in.value = (temp | temp2)
   await ClockCycles(clk, 10)
   temp = spi_clk_low(port_in)
-  port.value = temp
+  port_in.value = temp
   await ClockCycles(clk, 10)
   
   iterator = 0
@@ -134,10 +134,10 @@ async def spi_read (clk, port_in, port_out, address, data):
     # Don't care - bit 6, bit 5, bit 4 and bit 3
     temp = spi_clk_high(port_in)
     temp2 = spi_mosi_low(port_in)
-    port.value = (temp | temp2)
+    port_in.value = (temp | temp2)
     await ClockCycles(clk, 10)
     temp = spi_clk_low(port_in)
-    port.value = temp
+    port_in.value = temp
     await ClockCycles(clk, 10)
     iterator += 1
   
@@ -150,10 +150,10 @@ async def spi_read (clk, port_in, port_out, address, data):
       temp2 = spi_mosi_low(port_in)
     else:
       temp2 = spi_mosi_high(port_in)
-    port.value = (temp | temp2)
+    port_in.value = (temp | temp2)
     await ClockCycles(clk, 10)
     temp = spi_clk_low(port_in)
-    port.value = temp
+    port_in.value = temp
     await ClockCycles(clk, 10)
     iterator -= 1
 
@@ -169,17 +169,17 @@ async def spi_read (clk, port_in, port_out, address, data):
       temp2 = spi_mosi_low(port_in)
     else:
       temp2 = spi_mosi_high(port_in)
-    port.value = (temp | temp2)
+    port_in.value = (temp | temp2)
     await ClockCycles(clk, 10)
     miso_bit = spi_miso_read(port_out)
     miso_byte = miso_byte | (miso_bit << iterator)
     temp = spi_clk_low(port_in)
-    port.value = temp
+    port_in.value = temp
     await ClockCycles(clk, 10)
     iterator -= 1
 
   temp = pull_cs_high(port_in)
-  port.value = temp
+  port_in.value = temp
   await ClockCycles(clk, 10)
 
   return miso_byte
