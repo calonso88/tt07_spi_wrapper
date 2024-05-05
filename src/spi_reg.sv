@@ -5,6 +5,7 @@ module spi_reg #(
     input  logic clk,
     input  logic rstb,
     input  logic ena,
+    input  logic [1:0] mode,
     input  logic spi_mosi,
     output logic spi_miso,
     input  logic spi_clk,
@@ -24,8 +25,8 @@ module spi_reg #(
 
   // SPI Configuration
   // https://www.zipcores.com/datasheets/spi_slave.pdf - Table on CPOL and CPHA
-  parameter logic CPOL = 1'b0;
-  parameter logic CPHA = 1'b1;
+  //parameter logic CPOL = 1'b0;
+  //parameter logic CPHA = 1'b1;
 
   // Start of frame - negedge of spi_cs_n
   logic sof;
@@ -50,7 +51,7 @@ module spi_reg #(
   logic spi_data_change;
   // Assert according to SPI Config
   always_comb begin
-    case ( {CPOL, CPHA} )
+      case ( mode )
       2'b00 : begin
         spi_data_sample = spi_clk_pos;
         spi_data_change = spi_clk_neg;
@@ -67,10 +68,13 @@ module spi_reg #(
         spi_data_sample = spi_clk_pos;
         spi_data_change = spi_clk_neg;
       end 
+      default : begin
+        spi_data_sample = spi_clk_neg;
+        spi_data_change = spi_clk_pos;
+      end
     endcase
   end
 
-    
   // FSM states type
   typedef enum logic [2:0] {
     STATE_IDLE, STATE_ADDR, STATE_CMD, STATE_RX_DATA, STATE_TX_DATA
@@ -95,7 +99,7 @@ module spi_reg #(
   logic tx_buffer_load;
   logic sample_addr;
   logic sample_data;
-    
+
   // Next state logic
   always_comb begin
     // default assignments
@@ -155,7 +159,7 @@ module spi_reg #(
 
   // RX Buffer
   logic [REG_W-1:0] rx_buffer;
-    
+
   // RX Buffer
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
@@ -173,7 +177,7 @@ module spi_reg #(
 
   // General counter
   logic [3:0] rx_buffer_counter;
-    
+
   // RX Buffer
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
@@ -187,12 +191,12 @@ module spi_reg #(
         end
       end
     end
-  end    
+  end
 
   // Addr register
   logic [ADDR_W-1:0] addr;
   logic reg_rw;
-      
+
   // Addr Register
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
@@ -207,7 +211,7 @@ module spi_reg #(
       end
     end
   end
-  
+
   // Data register and data valid strobe
   logic [REG_W-1:0] data;
   logic dv;
@@ -227,7 +231,6 @@ module spi_reg #(
       end
     end
   end
-
 
   // General counter
   logic [3:0] tx_buffer_counter;
@@ -249,7 +252,7 @@ module spi_reg #(
 
   // TX Buffer
   logic [REG_W-1:0] tx_buffer;
-    
+
   // TX Buffer
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
