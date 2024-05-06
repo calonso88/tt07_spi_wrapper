@@ -145,7 +145,7 @@ module spi_reg #(
       STATE_TX_DATA : begin
         if (tx_buffer_counter == 4'd0) begin
           tx_buffer_load = 1'b1;
-        end else if (rx_buffer_counter == 4'd8) begin
+        end else if (tx_buffer_counter == 4'd8) begin
           next_state = STATE_IDLE;
         end else if (eof == 1'b1) begin
           next_state = STATE_IDLE;
