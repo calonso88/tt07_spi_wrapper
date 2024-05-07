@@ -81,21 +81,20 @@ module spi_reg #(
   } fsm_state;
 
   // FSM states
-  fsm_state state_new, next_state;
+  fsm_state state, next_state;
 
   // Next state transition
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
-      state_new <= STATE_IDLE;
+      state <= STATE_IDLE;
     end else begin
       if (ena == 1'b1) begin
-        state_new <= next_state;
+        state <= next_state;
       end
     end
   end
 
   // Sample addr and data
-  //logic rx_buffer_shift_en;
   logic tx_buffer_load;
   logic sample_addr;
   logic sample_data;
@@ -103,20 +102,18 @@ module spi_reg #(
   // Next state logic
   always_comb begin
     // default assignments
-    next_state = state_new;
-    //rx_buffer_shift_en = 1'b0;
+    next_state = state;
     tx_buffer_load = 1'b0;
     sample_addr = 1'b0;
     sample_data = 1'b0;
 
-    case (state_new)
+    case (state)
       STATE_IDLE : begin
         if (sof == 1'b1) begin
           next_state = STATE_ADDR;
         end
       end
       STATE_ADDR : begin
-        //rx_buffer_shift_en = 1'b1;
         if (rx_buffer_counter == 4'd8) begin
           sample_addr = 1'b1;
           next_state = STATE_CMD;
@@ -134,7 +131,6 @@ module spi_reg #(
         end
       end
       STATE_RX_DATA : begin
-        //rx_buffer_shift_en = 1'b1;
         if (rx_buffer_counter == 4'd8) begin
           sample_data = 1'b1;
           next_state = STATE_IDLE;
@@ -166,11 +162,9 @@ module spi_reg #(
       rx_buffer <= '0;
     end else begin
       if (ena == 1'b1) begin
-        //if (rx_buffer_shift_en == 1'b1) begin
-          if (spi_data_sample == 1'b1) begin
-            rx_buffer <= {rx_buffer[REG_W-2:0], spi_mosi};
-          end
-        //end
+        if (spi_data_sample == 1'b1) begin
+          rx_buffer <= {rx_buffer[REG_W-2:0], spi_mosi};
+        end
       end
     end
   end
