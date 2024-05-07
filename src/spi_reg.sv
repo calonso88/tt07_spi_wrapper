@@ -53,24 +53,24 @@ module spi_reg #(
   always_comb begin
       case ( mode )
       2'b00 : begin
-        spi_data_sample = spi_clk_pos;
-        spi_data_change = spi_clk_neg;
+        spi_data_sample = spi_clk_pos & ~spi_cs_n;
+        spi_data_change = spi_clk_neg & ~spi_cs_n;
       end
       2'b01 : begin
-        spi_data_sample = spi_clk_neg;
-        spi_data_change = spi_clk_pos;
+        spi_data_sample = spi_clk_neg & ~spi_cs_n;
+        spi_data_change = spi_clk_pos & ~spi_cs_n;
       end
       2'b10 : begin
-        spi_data_sample = spi_clk_neg;
-        spi_data_change = spi_clk_pos;
+        spi_data_sample = spi_clk_neg & ~spi_cs_n;
+        spi_data_change = spi_clk_pos & ~spi_cs_n;
       end
       2'b11 : begin
-        spi_data_sample = spi_clk_pos;
-        spi_data_change = spi_clk_neg;
+        spi_data_sample = spi_clk_pos & ~spi_cs_n;
+        spi_data_change = spi_clk_neg & ~spi_cs_n;
       end 
       default : begin
-        spi_data_sample = spi_clk_neg;
-        spi_data_change = spi_clk_pos;
+        spi_data_sample = spi_clk_neg & ~spi_cs_n;
+        spi_data_change = spi_clk_pos & ~spi_cs_n;
       end
     endcase
   end
