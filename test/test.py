@@ -409,11 +409,12 @@ async def test_project(dut):
     CPOL = 0
     CPHA = 1
     dut.ui_in.value = ((CPHA << 4) + (CPOL << 3)) + 1 # KEEP CS high
-
+    await ClockCycles(dut.clk, 10)
+  
     # CPOL = 0, SPI_CLK low in idle
     temp = dut.ui_in.value;
     result = spi_clk_low(temp)
-    dut.ui_in.value.value = result
+    dut.ui_in.value = result
   
     # Wait for some time
     await ClockCycles(dut.clk, 10)
@@ -490,11 +491,12 @@ async def test_project(dut):
     CPOL = 1
     CPHA = 1
     dut.ui_in.value = ((CPHA << 4) + (CPOL << 3)) + 1 # KEEP CS high
-
-    # CPOL = 0, SPI_CLK low in idle
+    await ClockCycles(dut.clk, 10)
+  
+    # CPOL = 1, SPI_CLK high in idle
     temp = dut.ui_in.value;
     result = spi_clk_high(temp)
-    dut.ui_in.value.value = result
+    dut.ui_in.value = result
   
     # Wait for some time
     await ClockCycles(dut.clk, 10)
@@ -571,11 +573,12 @@ async def test_project(dut):
     CPOL = 0
     CPHA = 0
     dut.ui_in.value = ((CPHA << 4) + (CPOL << 3)) + 1 # KEEP CS high
-
+    await ClockCycles(dut.clk, 10)
+  
     # CPOL = 0, SPI_CLK low in idle
     temp = dut.ui_in.value;
     result = spi_clk_low(temp)
-    dut.ui_in.value.value = result
+    dut.ui_in.value = result
   
     # Wait for some time
     await ClockCycles(dut.clk, 10)
@@ -650,11 +653,12 @@ async def test_project(dut):
     CPOL = 1
     CPHA = 0
     dut.ui_in.value = ((CPHA << 4) + (CPOL << 3)) + 1 # KEEP CS high
-
-    # CPOL = 0, SPI_CLK low in idle
+    await ClockCycles(dut.clk, 10)
+  
+    # CPOL = 1, SPI_CLK high in idle
     temp = dut.ui_in.value;
     result = spi_clk_high(temp)
-    dut.ui_in.value.value = result
+    dut.ui_in.value = result
   
     # Wait for some time
     await ClockCycles(dut.clk, 10)
