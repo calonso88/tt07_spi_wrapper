@@ -286,6 +286,11 @@ async def spi_write_cpha0 (clk, port, address, data):
     iterator -= 1
 
   temp = port.value;
+  result = spi_clk_invert(temp)
+  port.value = result
+  await ClockCycles(clk, 10)
+  
+  temp = port.value;
   result = pull_cs_high(temp)
   port.value = result
   await ClockCycles(clk, 10)  
@@ -364,6 +369,11 @@ async def spi_read_cpha0 (clk, port_in, port_out, address, data):
     await ClockCycles(clk, 10)
     iterator -= 1
 
+  temp = port.value;
+  result = spi_clk_invert(temp)
+  port.value = result
+  await ClockCycles(clk, 10)
+  
   temp = port_in.value;
   result = pull_cs_high(temp)
   port_in.value = result
