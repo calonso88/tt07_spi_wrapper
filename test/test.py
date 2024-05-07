@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: © 2024 Tiny Tapeout
 # SPDX-License-Identifier: MIT
 
+import random
+
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
@@ -233,50 +235,68 @@ async def test_project(dut):
     CPHA = 1
     dut.ui_in.value = ((CPHA << 4) + (CPOL << 3))
     await ClockCycles(dut.clk, 10)
-  
-    # Write reg[0] = 0xF0
-    await spi_write (dut.clk, dut.ui_in, 0, 0xF0)
-    # Write reg[1] = 0xDE
-    await spi_write (dut.clk, dut.ui_in, 1, 0xDE)
-    # Write reg[2] = 0xAD
-    await spi_write (dut.clk, dut.ui_in, 2, 0xAD)
-    # Write reg[3] = 0xBE
-    await spi_write (dut.clk, dut.ui_in, 3, 0xBE)
-    # Write reg[4] = 0xEF
-    await spi_write (dut.clk, dut.ui_in, 4, 0xEF)
-    # Write reg[5] = 0x55
-    await spi_write (dut.clk, dut.ui_in, 5, 0x55)
-    # Write reg[6] = 0xAA
-    await spi_write (dut.clk, dut.ui_in, 6, 0xAA)
-    # Write reg[7] = 0x0F
-    await spi_write (dut.clk, dut.ui_in, 7, 0x0F)
-  
-    # Read reg[0]
-    reg0 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 0, 0x00)
-    # Read reg[1]
-    reg1 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 1, 0x00)
-    # Read reg[2]
-    reg2 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 2, 0x00)
-    # Read reg[3]
-    reg3 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 3, 0x00)
-    # Read reg[4]
-    reg4 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 4, 0x00)
-    # Read reg[5]
-    reg5 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 5, 0x00)
-    # Read reg[6]
-    reg6 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 6, 0x00)
-    # Read reg[7]
-    reg7 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 7, 0x00)
 
+    # ITERATIONS 
+    iterations = 0
+  
+    while iterations < 10:
+        data0 = random.randint(0x00, 0xFF)
+        data1 = random.randint(0x00, 0xFF)
+        data2 = random.randint(0x00, 0xFF)
+        data3 = random.randint(0x00, 0xFF)
+        data4 = random.randint(0x00, 0xFF)
+        data5 = random.randint(0x00, 0xFF)
+        data6 = random.randint(0x00, 0xFF)
+        data7 = random.randint(0x00, 0xFF)
+        
+        # Write reg[0] = 0xF0
+        await spi_write (dut.clk, dut.ui_in, 0, data0)
+        # Write reg[1] = 0xDE
+        await spi_write (dut.clk, dut.ui_in, 1, data1)
+        # Write reg[2] = 0xAD
+        await spi_write (dut.clk, dut.ui_in, 2, data2)
+        # Write reg[3] = 0xBE
+        await spi_write (dut.clk, dut.ui_in, 3, data3)
+        # Write reg[4] = 0xEF
+        await spi_write (dut.clk, dut.ui_in, 4, data4)
+        # Write reg[5] = 0x55
+        await spi_write (dut.clk, dut.ui_in, 5, data5)
+        # Write reg[6] = 0xAA
+        await spi_write (dut.clk, dut.ui_in, 6, data6)
+        # Write reg[7] = 0x0F
+        await spi_write (dut.clk, dut.ui_in, 7, data7)
+      
+        # Read reg[0]
+        reg0 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 0, 0x00)
+        # Read reg[1]
+        reg1 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 1, 0x00)
+        # Read reg[2]
+        reg2 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 2, 0x00)
+        # Read reg[3]
+        reg3 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 3, 0x00)
+        # Read reg[4]
+        reg4 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 4, 0x00)
+        # Read reg[5]
+        reg5 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 5, 0x00)
+        # Read reg[6]
+        reg6 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 6, 0x00)
+        # Read reg[7]
+        reg7 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 7, 0x00)
+    
+        await ClockCycles(dut.clk, 10)
+    
+        assert reg0 == data0
+        assert reg1 == data1
+        assert reg2 == data2
+        assert reg3 == data3
+        assert reg4 == data4
+        assert reg5 == data5
+        assert reg6 == data6
+        assert reg7 == data7
+
+        iterations = iterations + 1
+
+
+    
     await ClockCycles(dut.clk, 10)
 
-    assert reg0 == 0xF0
-    assert reg1 == 0xDE
-    assert reg2 == 0xAD
-    assert reg3 == 0xBE
-    assert reg4 == 0xEF
-    assert reg5 == 0x55
-    assert reg6 == 0xAA
-    assert reg7 == 0x0F
-
-    await ClockCycles(dut.clk, 10)
