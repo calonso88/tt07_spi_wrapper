@@ -95,7 +95,7 @@ module spi_reg #(
   end
 
   // Sample addr and data
-  logic rx_buffer_shift_en;
+  //logic rx_buffer_shift_en;
   logic tx_buffer_load;
   logic sample_addr;
   logic sample_data;
@@ -104,7 +104,7 @@ module spi_reg #(
   always_comb begin
     // default assignments
     next_state = state_new;
-    rx_buffer_shift_en = 1'b0;
+    //rx_buffer_shift_en = 1'b0;
     tx_buffer_load = 1'b0;
     sample_addr = 1'b0;
     sample_data = 1'b0;
@@ -116,7 +116,7 @@ module spi_reg #(
         end
       end
       STATE_ADDR : begin
-        rx_buffer_shift_en = 1'b1;
+        //rx_buffer_shift_en = 1'b1;
         if (rx_buffer_counter == 4'd8) begin
           sample_addr = 1'b1;
           next_state = STATE_CMD;
@@ -134,7 +134,7 @@ module spi_reg #(
         end
       end
       STATE_RX_DATA : begin
-        rx_buffer_shift_en = 1'b1;
+        //rx_buffer_shift_en = 1'b1;
         if (rx_buffer_counter == 4'd8) begin
           sample_data = 1'b1;
           next_state = STATE_IDLE;
@@ -166,11 +166,11 @@ module spi_reg #(
       rx_buffer <= '0;
     end else begin
       if (ena == 1'b1) begin
-        if (rx_buffer_shift_en == 1'b1) begin
+        //if (rx_buffer_shift_en == 1'b1) begin
           if (spi_data_sample == 1'b1) begin
             rx_buffer <= {rx_buffer[REG_W-2:0], spi_mosi};
           end
-        end
+        //end
       end
     end
   end
