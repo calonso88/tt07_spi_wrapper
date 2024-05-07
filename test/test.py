@@ -408,7 +408,7 @@ async def test_project(dut):
     # Config CPOL and CPHA
     CPOL = 0
     CPHA = 1
-    dut.ui_in.value = ((CPHA << 4) + (CPOL << 3))
+    dut.ui_in.value = ((CPHA << 4) + (CPOL << 3)) + 1 # KEEP CS high
 
     # CPOL = 0, SPI_CLK low in idle
     temp = dut.ui_in.value;
@@ -489,7 +489,7 @@ async def test_project(dut):
     # Config CPOL and CPHA
     CPOL = 1
     CPHA = 1
-    dut.ui_in.value = ((CPHA << 4) + (CPOL << 3))
+    dut.ui_in.value = ((CPHA << 4) + (CPOL << 3)) + 1 # KEEP CS high
 
     # CPOL = 0, SPI_CLK low in idle
     temp = dut.ui_in.value;
@@ -570,7 +570,7 @@ async def test_project(dut):
     # Config CPOL and CPHA
     CPOL = 0
     CPHA = 0
-    dut.ui_in.value = ((CPHA << 4) + (CPOL << 3))
+    dut.ui_in.value = ((CPHA << 4) + (CPOL << 3)) + 1 # KEEP CS high
 
     # CPOL = 0, SPI_CLK low in idle
     temp = dut.ui_in.value;
@@ -649,7 +649,7 @@ async def test_project(dut):
     # Config CPOL and CPHA
     CPOL = 1
     CPHA = 0
-    dut.ui_in.value = ((CPHA << 4) + (CPOL << 3))
+    dut.ui_in.value = ((CPHA << 4) + (CPOL << 3)) + 1 # KEEP CS high
 
     # CPOL = 0, SPI_CLK low in idle
     temp = dut.ui_in.value;
