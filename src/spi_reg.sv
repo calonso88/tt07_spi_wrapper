@@ -173,10 +173,10 @@ module spi_reg #(
     end
   end
 
-  // General counter
+  // RX General counter
   logic [3:0] rx_buffer_counter;
 
-  // RX Buffer
+  // RX Buffer Counter
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
       rx_buffer_counter <= '0;
@@ -191,11 +191,11 @@ module spi_reg #(
     end
   end
 
-  // Addr register
+  // Addr and Read/Write Command register
   logic [ADDR_W-1:0] addr;
   logic reg_rw;
 
-  // Addr Register
+  // Addr and Read/Write Command Registers
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
       addr <= '0;
@@ -214,7 +214,7 @@ module spi_reg #(
   logic [REG_W-1:0] data;
   logic dv;
 
-  // Data Register
+    // Data and DataValid (dv) Registers
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
       data <= '0;
@@ -230,10 +230,10 @@ module spi_reg #(
     end
   end
 
-  // General counter
+  // TX General counter
   logic [3:0] tx_buffer_counter;
     
-  // RX Buffer
+  // TX Buffer counter
   always_ff @(negedge(rstb) or posedge(clk)) begin
     if (!rstb) begin
       tx_buffer_counter <= '0;
