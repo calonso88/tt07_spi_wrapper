@@ -23,22 +23,22 @@ SPI Slave implementation that support all 4 SPI modes of operation. 8 Configurab
 
 | Address | Type of register | 
 | ---| --- |
-| 0 | Configurable Read/Write register |
-| 1 | Configurable Read/Write register |
-| 2 | Configurable Read/Write register |
-| 3 | Configurable Read/Write register |
-| 4 | Configurable Read/Write register |
-| 5 | Configurable Read/Write register |
-| 6 | Configurable Read/Write register |
-| 7 | Configurable Read/Write register |
-| 8 | Status Read Only register |
-| 9 | Status Read Only register |
-| 10 | Status Read Only register |
-| 11 | Status Read Only register |
-| 12 | Status Read Only register |
-| 13 | Status Read Only register |
-| 14 | Status Read Only register |
-| 15 | Status Read Only register |
+| 0 | Configurable Read/Write register [0] |
+| 1 | Configurable Read/Write register [1] |
+| 2 | Configurable Read/Write register [2] |
+| 3 | Configurable Read/Write register [3] |
+| 4 | Configurable Read/Write register [4] |
+| 5 | Configurable Read/Write register [5] |
+| 6 | Configurable Read/Write register [6] |
+| 7 | Configurable Read/Write register [7] |
+| 8 | Status Read Only register [0] ||
+| 9 | Status Read Only register [1] |
+| 10 | Status Read Only register [2] |
+| 11 | Status Read Only register [3] |
+| 12 | Status Read Only register [4] |
+| 13 | Status Read Only register [5] |
+| 14 | Status Read Only register [6] |
+| 15 | Status Read Only register [7] |
 
 ## Connection
 
