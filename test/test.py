@@ -78,7 +78,7 @@ async def spi_write (clk, port, address, data):
 
   iterator = 0
   while iterator < 3:
-    # Don't care - bit 6, bit 5 and bit
+    # Don't care - bit 6, bit 5 and bit 4
     temp = port.value;
     result = spi_clk_invert(temp)
     result2 = spi_mosi_low(result)
