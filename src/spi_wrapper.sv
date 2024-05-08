@@ -11,7 +11,7 @@ module spi_wrapper #(parameter int NUM_REGS = 8, parameter int WIDTH = 8) (rstb,
   output logic spi_miso;
 
   output logic [NUM_REGS*WIDTH-1:0] config_regs;
-  output logic [WIDTH-1:0] status_regs;
+  output logic [NUM_REGS*WIDTH-1:0] status_regs;
 
   // Address width for register bank
   localparam int ADDR_WIDTH = $clog2(NUM_REGS);
@@ -66,8 +66,8 @@ module spi_wrapper #(parameter int NUM_REGS = 8, parameter int WIDTH = 8) (rstb,
   end
 
   // Assign config regs
-  assign config_regs[7:0] = mem[0];
-  assign config_regs[15:8] = mem[1];
+  assign config_regs[7:0]   = mem[0];
+  assign config_regs[15:8]  = mem[1];
   assign config_regs[23:16] = mem[2];
   assign config_regs[31:24] = mem[3];
   assign config_regs[39:32] = mem[4];
@@ -76,6 +76,13 @@ module spi_wrapper #(parameter int NUM_REGS = 8, parameter int WIDTH = 8) (rstb,
   assign config_regs[63:56] = mem[7];
 
   // Assign status regs
-  assign status_regs = '0;
+  assign status_regs[7:0]   = 8'hCA;
+  assign status_regs[15:8]  = 8'h10;
+  assign status_regs[23:16] = 8'hAA;
+  assign status_regs[31:24] = 8'h55;
+  assign status_regs[39:32] = 8'hFF;
+  assign status_regs[47:40] = 8'h00;;
+  assign status_regs[55:48] = 8'hA5;;
+  assign status_regs[63:56] = 8'h5A;;
 
 endmodule
