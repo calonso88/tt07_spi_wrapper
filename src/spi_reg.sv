@@ -166,7 +166,8 @@ module spi_reg #(
       rx_buffer <= '0;
     end else begin
       if (ena == 1'b1) begin
-        if ((rx_buffer_en == 1'b1) && (spi_data_sample == 1'b1)) begin
+        //if ((rx_buffer_en == 1'b1) && (spi_data_sample == 1'b1)) begin
+        if (spi_data_sample == 1'b1) begin
           rx_buffer <= {rx_buffer[REG_W-2:0], spi_mosi};
         end
       end
@@ -184,7 +185,8 @@ module spi_reg #(
       if (ena == 1'b1) begin
         if (rx_buffer_counter == 4'd8) begin
           rx_buffer_counter <= '0;
-        end else if ((rx_buffer_en == 1'b1) && (spi_data_sample == 1'b1)) begin
+        //end else if ((rx_buffer_en == 1'b1) && (spi_data_sample == 1'b1)) begin
+        end else if (spi_data_sample == 1'b1) begin
           rx_buffer_counter <= rx_buffer_counter + 1'b1;
         end
       end
