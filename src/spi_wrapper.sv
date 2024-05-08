@@ -44,8 +44,9 @@ module spi_wrapper #(parameter int NUM_CFG = 8, parameter int NUM_STATUS = 8, pa
     .status('0)
   );
 
-  // CFG or Status Register read access
-  assign reg_data_i = (reg_addr < NUM_CFG) ? config_mem[reg_addr] : status_int[reg_addr-NUM_CFG];
+  // Mux to select CFG or Status Register read access
+  // This imposes a limitation that NUM_CFG and NUM_STATUS have to have the same VALUE!
+  assign reg_data_i = (reg_addr[ADDR_WIDTH-1] == 0) ? config_mem[reg_addr[ADDR_WIDTH-2:0]] : status_int[reg_addr[ADDR_WIDTH-2:0]];
 
   // Index for reset register array
   int i;
