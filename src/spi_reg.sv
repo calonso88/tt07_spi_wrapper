@@ -23,11 +23,6 @@ module spi_reg #(
   assign reg_data_o_dv = dv;
   assign spi_miso = tx_buffer[REG_W-1];
 
-  // SPI Configuration
-  // https://www.zipcores.com/datasheets/spi_slave.pdf - Table on CPOL and CPHA
-  //parameter logic CPOL = 1'b0;
-  //parameter logic CPHA = 1'b1;
-
   // Start of frame - negedge of spi_cs_n
   logic sof;
   // Pulse on start of frame
@@ -36,11 +31,11 @@ module spi_reg #(
   logic eof;
   // Pulse on end of frame
   rising_edge_detector rising_edge_detector_eof (.rstb(rstb), .clk(clk), .ena(ena), .data(spi_cs_n), .pos_edge(eof));
-  
+
   // Pulses on rising and falling edge of spi_clk
   logic spi_clk_pos;
   logic spi_clk_neg;
-  
+
   // Pulse on rising edge of spi_clk
   rising_edge_detector rising_edge_detector_spi_clk (.rstb(rstb), .clk(clk), .ena(ena), .data(spi_clk), .pos_edge(spi_clk_pos));
   // Pulse on falling edge of spi_clk
@@ -52,11 +47,12 @@ module spi_reg #(
   
   assign spi_clk_pos_gated = spi_clk_pos & ~spi_cs_n;
   assign spi_clk_neg_gated = spi_clk_neg & ~spi_cs_n;
-    
+
   // Sample data
   logic spi_data_sample;
   // Change data
   logic spi_data_change;
+
   // Assert according to SPI Config
   always_comb begin
       case ( mode )
@@ -104,7 +100,6 @@ module spi_reg #(
 
   // Sample addr and data
   logic tx_buffer_load;
-  logic rx_buffer_en;
   logic sample_addr;
   logic sample_data;
 
@@ -113,7 +108,6 @@ module spi_reg #(
     // default assignments
     next_state = state;
     tx_buffer_load = 1'b0;
-    rx_buffer_en = 1'b0;
     sample_addr = 1'b0;
     sample_data = 1'b0;
 
@@ -124,7 +118,6 @@ module spi_reg #(
         end
       end
       STATE_ADDR : begin
-        rx_buffer_en = 1'b1;
         if (rx_buffer_counter == 4'd8) begin
           sample_addr = 1'b1;
           next_state = STATE_CMD;
@@ -142,7 +135,6 @@ module spi_reg #(
         end
       end
       STATE_RX_DATA : begin
-        rx_buffer_en = 1'b1;
         if (rx_buffer_counter == 4'd8) begin
           sample_data = 1'b1;
           next_state = STATE_IDLE;
@@ -174,7 +166,6 @@ module spi_reg #(
       rx_buffer <= '0;
     end else begin
       if (ena == 1'b1) begin
-        //if ((rx_buffer_en == 1'b1) && (spi_data_sample == 1'b1)) begin
         if (spi_data_sample == 1'b1) begin
           rx_buffer <= {rx_buffer[REG_W-2:0], spi_mosi};
         end
@@ -193,7 +184,6 @@ module spi_reg #(
       if (ena == 1'b1) begin
         if (rx_buffer_counter == 4'd8) begin
           rx_buffer_counter <= '0;
-        //end else if ((rx_buffer_en == 1'b1) && (spi_data_sample == 1'b1)) begin
         end else if (spi_data_sample == 1'b1) begin
           rx_buffer_counter <= rx_buffer_counter + 1'b1;
         end
