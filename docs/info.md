@@ -40,7 +40,7 @@ Address Space:
 
 ## Connection
 
-MCU <--SPI--> SPI_WRAPPER <--regaccess--> User logic
+RP2040 SPI Master <--SPI--> SPI_WRAPPER <--regaccess--> User logic
 
 * SPI: MOSI MISO SCLK CS
 * regaccess: config_regs (used to drive/control user logic), status_regs (used to read/monitor user logic)
