@@ -11,7 +11,7 @@ module spi_wrapper #(parameter int NUM_CFG = 8, parameter int NUM_STATUS = 8, pa
   output logic spi_miso;
 
   output logic [NUM_CFG*REG_WIDTH-1:0] config_regs;
-  output logic [NUM_STATUS*REG_WIDTH-1:0] status_regs;
+  input logic [NUM_STATUS*REG_WIDTH-1:0] status_regs;
 
   // Address width for register bank
   localparam int NUM_REGS = NUM_CFG+NUM_STATUS;
@@ -75,24 +75,5 @@ module spi_wrapper #(parameter int NUM_CFG = 8, parameter int NUM_STATUS = 8, pa
   assign config_regs[47:40] = config_mem[5];
   assign config_regs[55:48] = config_mem[6];
   assign config_regs[63:56] = config_mem[7];
-
-  // Assign status regs
-  assign status_int[0] = 8'hCA;
-  assign status_int[1] = 8'h10;
-  assign status_int[2] = 8'hAA;
-  assign status_int[3] = 8'h55;
-  assign status_int[4] = 8'hFF;
-  assign status_int[5] = 8'h00;
-  assign status_int[6] = 8'hA5;
-  assign status_int[7] = 8'h5A;
-  
-  assign status_regs[7:0]   = status_int[0];
-  assign status_regs[15:8]  = status_int[1];
-  assign status_regs[23:16] = status_int[2];
-  assign status_regs[31:24] = status_int[3];
-  assign status_regs[39:32] = status_int[4];
-  assign status_regs[47:40] = status_int[5];
-  assign status_regs[55:48] = status_int[6];
-  assign status_regs[63:56] = status_int[7];
 
 endmodule
