@@ -38,16 +38,21 @@ module spi_reg #(
   rising_edge_detector rising_edge_detector_eof (.rstb(rstb), .clk(clk), .ena(ena), .data(spi_cs_n), .pos_edge(eof));
   
   // Pulses on rising and falling edge of spi_clk
-  logic spi_clk_edge_en;
   logic spi_clk_pos;
   logic spi_clk_neg;
-  assign spi_clk_edge_en = ~spi_cs_n & ena;
-
+  
   // Pulse on rising edge of spi_clk
-  rising_edge_detector rising_edge_detector_spi_clk (.rstb(rstb), .clk(clk), .ena(spi_clk_edge_en), .data(spi_clk), .pos_edge(spi_clk_pos));
+  rising_edge_detector rising_edge_detector_spi_clk (.rstb(rstb), .clk(clk), .ena(ena), .data(spi_clk), .pos_edge(spi_clk_pos));
   // Pulse on falling edge of spi_clk
-  falling_edge_detector falling_edge_detector_spi_clk (.rstb(rstb), .clk(clk), .ena(spi_clk_edge_en), .data(spi_clk), .neg_edge(spi_clk_neg));
+  falling_edge_detector falling_edge_detector_spi_clk (.rstb(rstb), .clk(clk), .ena(ena), .data(spi_clk), .neg_edge(spi_clk_neg));
 
+  // Mask with spi_cs_n
+  logic spi_clk_pos_gated;
+  logic spi_clk_neg_gated;
+  
+  assign spi_clk_pos_gated = spi_clk_pos & ~spi_cs_n;
+  assign spi_clk_neg_gated = spi_clk_neg & ~spi_cs_n;
+    
   // Sample data
   logic spi_data_sample;
   // Change data
@@ -56,24 +61,24 @@ module spi_reg #(
   always_comb begin
       case ( mode )
       2'b00 : begin
-        spi_data_sample = spi_clk_pos;
-        spi_data_change = spi_clk_neg;
+        spi_data_sample = spi_clk_pos_gated;
+        spi_data_change = spi_clk_neg_gated;
       end
       2'b01 : begin
-        spi_data_sample = spi_clk_neg;
-        spi_data_change = spi_clk_pos;
+        spi_data_sample = spi_clk_neg_gated;
+        spi_data_change = spi_clk_pos_gated;
       end
       2'b10 : begin
-        spi_data_sample = spi_clk_neg;
-        spi_data_change = spi_clk_pos;
+        spi_data_sample = spi_clk_neg_gated;
+        spi_data_change = spi_clk_pos_gated;
       end
       2'b11 : begin
-        spi_data_sample = spi_clk_pos;
-        spi_data_change = spi_clk_neg;
+        spi_data_sample = spi_clk_pos_gated;
+        spi_data_change = spi_clk_neg_gated;
       end 
       default : begin
-        spi_data_sample = spi_clk_neg & ~spi_cs_n;
-        spi_data_change = spi_clk_pos & ~spi_cs_n;
+        spi_data_sample = spi_clk_neg_gated;
+        spi_data_change = spi_clk_pos_gated;
       end
     endcase
   end
