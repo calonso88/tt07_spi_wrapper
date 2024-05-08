@@ -60,7 +60,7 @@ module spi_wrapper #(parameter int NUM_CFG = 8, parameter int NUM_STATUS = 8, pa
     end else begin
       if (ena == 1'b1) begin
         if (reg_data_o_vld) begin
-          config_mem[reg_addr] <= reg_data_o;
+          config_mem[reg_addr[ADDR_WIDTH-2:0]] <= reg_data_o;
         end
       end
     end
