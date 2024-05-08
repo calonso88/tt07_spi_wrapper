@@ -468,21 +468,21 @@ async def test_project(dut):
         reg7 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 7, 0x00)
 
         # Read status reg[0]
-        s_reg0 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 0, 0x00)
+        s_reg0 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 8, 0x00)
         # Read status reg[1]
-        s_reg1 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 1, 0x00)
+        s_reg1 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 9, 0x00)
         # Read status reg[2]
-        s_reg2 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 2, 0x00)
+        s_reg2 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 10, 0x00)
         # Read status reg[3]
-        s_reg3 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 3, 0x00)
+        s_reg3 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 11, 0x00)
         # Read status reg[4]
-        s_reg4 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 4, 0x00)
+        s_reg4 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 12, 0x00)
         # Read status reg[5]
-        s_reg5 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 5, 0x00)
+        s_reg5 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 13, 0x00)
         # Read status reg[6]
-        s_reg6 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 6, 0x00)
+        s_reg6 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 14, 0x00)
         # Read status reg[7]
-        s_reg7 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 7, 0x00)
+        s_reg7 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 15, 0x00)
 
         # Wait for some time
         await ClockCycles(dut.clk, 10)
@@ -575,21 +575,21 @@ async def test_project(dut):
         reg7 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 7, 0x00)
 
         # Read status reg[0]
-        s_reg0 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 0, 0x00)
+        s_reg0 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 8, 0x00)
         # Read status reg[1]
-        s_reg1 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 1, 0x00)
+        s_reg1 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 9, 0x00)
         # Read status reg[2]
-        s_reg2 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 2, 0x00)
+        s_reg2 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 10, 0x00)
         # Read status reg[3]
-        s_reg3 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 3, 0x00)
+        s_reg3 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 11, 0x00)
         # Read status reg[4]
-        s_reg4 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 4, 0x00)
+        s_reg4 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 12, 0x00)
         # Read status reg[5]
-        s_reg5 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 5, 0x00)
+        s_reg5 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 13, 0x00)
         # Read status reg[6]
-        s_reg6 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 6, 0x00)
+        s_reg6 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 14, 0x00)
         # Read status reg[7]
-        s_reg7 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 7, 0x00)
+        s_reg7 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 15, 0x00)
 
         # Wait for some time
         await ClockCycles(dut.clk, 10)
@@ -681,21 +681,21 @@ async def test_project(dut):
         reg7 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 7, 0x00)
 
         # Read status reg[0]
-        s_reg0 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 0, 0x00)
+        s_reg0 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 8, 0x00)
         # Read status reg[1]
-        s_reg1 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 1, 0x00)
+        s_reg1 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 9, 0x00)
         # Read status reg[2]
-        s_reg2 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 2, 0x00)
+        s_reg2 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 10, 0x00)
         # Read status reg[3]
-        s_reg3 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 3, 0x00)
+        s_reg3 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 11, 0x00)
         # Read status reg[4]
-        s_reg4 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 4, 0x00)
+        s_reg4 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 12, 0x00)
         # Read status reg[5]
-        s_reg5 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 5, 0x00)
+        s_reg5 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 13, 0x00)
         # Read status reg[6]
-        s_reg6 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 6, 0x00)
+        s_reg6 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 14, 0x00)
         # Read status reg[7]
-        s_reg7 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 7, 0x00)
+        s_reg7 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 15, 0x00)
 
         await ClockCycles(dut.clk, 10)
         await ClockCycles(dut.clk, 10)
@@ -787,21 +787,21 @@ async def test_project(dut):
         reg7 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 7, 0x00)
 
         # Read status reg[0]
-        s_reg0 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 0, 0x00)
+        s_reg0 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 8, 0x00)
         # Read status reg[1]
-        s_reg1 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 1, 0x00)
+        s_reg1 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 9, 0x00)
         # Read status reg[2]
-        s_reg2 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 2, 0x00)
+        s_reg2 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 10, 0x00)
         # Read status reg[3]
-        s_reg3 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 3, 0x00)
+        s_reg3 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 11, 0x00)
         # Read status reg[4]
-        s_reg4 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 4, 0x00)
+        s_reg4 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 12, 0x00)
         # Read status reg[5]
-        s_reg5 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 5, 0x00)
+        s_reg5 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 13, 0x00)
         # Read status reg[6]
-        s_reg6 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 6, 0x00)
+        s_reg6 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 14, 0x00)
         # Read status reg[7]
-        s_reg7 = await spi_read (dut.clk, dut.ui_in, dut.uo_out, 7, 0x00)
+        s_reg7 = await spi_read_cpha0 (dut.clk, dut.ui_in, dut.uo_out, 15, 0x00)
 
         # Wait for some time
         await ClockCycles(dut.clk, 10)
