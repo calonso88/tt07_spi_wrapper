@@ -77,8 +77,8 @@ async def spi_write (clk, port, address, data):
   await ClockCycles(clk, 10)
 
   iterator = 0
-  while iterator < 4:
-    # Don't care - bit 6, bit 5, bit 4 and bit 3
+  while iterator < 3:
+    # Don't care - bit 6, bit 5 and bit
     temp = port.value;
     result = spi_clk_invert(temp)
     result2 = spi_mosi_low(result)
@@ -90,9 +90,9 @@ async def spi_write (clk, port, address, data):
     await ClockCycles(clk, 10)
     iterator += 1
 
-  iterator = 2
+  iterator = 3
   while iterator >= 0:
-    # Address[iterator] - bit 2, bit 1 and bit 0
+    # Address[iterator] - bit 3, bit 2, bit 1 and bit 0
     temp = port.value;
     result = spi_clk_invert(temp)
     address_bit = get_bit(address, iterator)
@@ -155,8 +155,8 @@ async def spi_read (clk, port_in, port_out, address, data):
   await ClockCycles(clk, 10)
 
   iterator = 0
-  while iterator < 4:
-    # Don't care - bit 6, bit 5, bit 4 and bit 3
+  while iterator < 3:
+    # Don't care - bit 6, bit 5 and bit 4
     temp = port_in.value;
     result = spi_clk_invert(temp)
     result2 = spi_mosi_low(result)
@@ -168,9 +168,9 @@ async def spi_read (clk, port_in, port_out, address, data):
     await ClockCycles(clk, 10)
     iterator += 1
 
-  iterator = 2
+  iterator = 3
   while iterator >= 0:
-    # Address[iterator] - bit 2, bit 1 and bit 0
+    # Address[iterator] - bit 3, bit 2, bit 1 and bit 0
     temp = port_in.value;
     result = spi_clk_invert(temp)
     address_bit = get_bit(address, iterator)
@@ -236,8 +236,8 @@ async def spi_write_cpha0 (clk, port, address, data):
   await ClockCycles(clk, 10)
 
   iterator = 0
-  while iterator < 4:
-    # Don't care - bit 6, bit 5, bit 4 and bit 3
+  while iterator < 3:
+    # Don't care - bit 6, bit 5 and bit 4
     temp = port.value;
     result = spi_clk_invert(temp)
     result2 = spi_mosi_low(result)
@@ -249,9 +249,9 @@ async def spi_write_cpha0 (clk, port, address, data):
     await ClockCycles(clk, 10)
     iterator += 1
 
-  iterator = 2
+  iterator = 3
   while iterator >= 0:
-    # Address[iterator] - bit 2, bit 1 and bit 0
+    # Address[iterator] - bit 3, bit 2, bit 1 and bit 0
     temp = port.value;
     result = spi_clk_invert(temp)
     address_bit = get_bit(address, iterator)
@@ -315,8 +315,8 @@ async def spi_read_cpha0 (clk, port_in, port_out, address, data):
   await ClockCycles(clk, 10)
 
   iterator = 0
-  while iterator < 4:
-    # Don't care - bit 6, bit 5, bit 4 and bit 3
+  while iterator < 3:
+    # Don't care - bit 6, bit 5 and bit 4
     temp = port_in.value;
     result = spi_clk_invert(temp)
     result2 = spi_mosi_low(result)
@@ -328,9 +328,9 @@ async def spi_read_cpha0 (clk, port_in, port_out, address, data):
     await ClockCycles(clk, 10)
     iterator += 1
 
-  iterator = 2
+  iterator = 3
   while iterator >= 0:
-    # Address[iterator] - bit 2, bit 1 and bit 0
+    # Address[iterator] - bit 3, bit 2, bit 1 and bit 0
     temp = port_in.value;
     result = spi_clk_invert(temp)
     address_bit = get_bit(address, iterator)
