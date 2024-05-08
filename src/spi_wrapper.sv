@@ -82,7 +82,7 @@ module spi_wrapper #(parameter int NUM_CFG = 8, parameter int NUM_STATUS = 8, pa
   assign status_int[3] = 8'h55;
   assign status_int[4] = 8'hFF;
   assign status_int[5] = 8'h00;
-  assign status_int[6} = 8'hA5;
+  assign status_int[6] = 8'hA5;
   assign status_int[7] = 8'h5A;
   
   assign status_regs[7:0]   = status_int[0];
