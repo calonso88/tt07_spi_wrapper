@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024 Caio Alonso da Costa
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 module spi_wrapper #(parameter int NUM_CFG = 8, parameter int NUM_STATUS = 8, parameter int REG_WIDTH = 8) (rstb, clk, ena, mode, spi_cs_n, spi_clk, spi_mosi, spi_miso, config_regs, status_regs);
 
   input logic rstb;
