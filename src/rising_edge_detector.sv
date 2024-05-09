@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024 Caio Alonso da Costa
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 module rising_edge_detector (rstb, clk, ena, data, pos_edge);
 
   input logic rstb;
