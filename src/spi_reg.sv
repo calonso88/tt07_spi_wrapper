@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024 Caio Alonso da Costa
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 module spi_reg #(
     parameter int ADDR_W = 3,
     parameter int REG_W = 8
