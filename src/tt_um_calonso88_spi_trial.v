@@ -59,8 +59,10 @@ module tt_um_calonso88_spi_trial (
   synchronizer #(.WIDTH(1)) synchronizer_spi_mode_cpha (.rstb(rst_n), .clk(clk), .ena(ena), .data_in(cpha), .data_out(cpha_sync));
 
   // Amount of CFG Regs and Status Regs + Regs Width
-  localparam int NUM_CFG = 8;
-  localparam int NUM_STATUS = 8;    
+  //localparam int NUM_CFG = 8;
+  //localparam int NUM_STATUS = 8;    
+  localparam int NUM_CFG = 4;
+  localparam int NUM_STATUS = 4;    
   localparam int REG_WIDTH = 8;
   
   // Config Regs and Status Regs
@@ -72,10 +74,10 @@ module tt_um_calonso88_spi_trial (
   assign status_regs[15:8]  = 8'h10;
   assign status_regs[23:16] = 8'hAA;
   assign status_regs[31:24] = 8'h55;
-  assign status_regs[39:32] = 8'hFF;
-  assign status_regs[47:40] = 8'h00;
-  assign status_regs[55:48] = 8'hA5;
-  assign status_regs[63:56] = 8'h5A;
+  //assign status_regs[39:32] = 8'hFF;
+  //assign status_regs[47:40] = 8'h00;
+  //assign status_regs[55:48] = 8'hA5;
+  //assign status_regs[63:56] = 8'h5A;
 
   // SPI wrapper
   spi_wrapper #(.NUM_CFG(NUM_CFG), .NUM_STATUS(NUM_STATUS), .REG_WIDTH(REG_WIDTH)) spi_wrapper_i (.rstb(rst_n), .clk(clk), .ena(ena), .mode({cpol_sync, cpha_sync}), .spi_cs_n(spi_cs_n_sync), .spi_clk(spi_clk_sync), .spi_mosi(spi_mosi_sync), .spi_miso(spi_miso), .config_regs(config_regs), .status_regs(status_regs));
