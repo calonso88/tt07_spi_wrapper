@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2024 Caio Alonso da Costa
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 module falling_edge_detector (rstb, clk, ena, data, neg_edge);
 
   input logic rstb;
