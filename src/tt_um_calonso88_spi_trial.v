@@ -67,12 +67,16 @@ module tt_um_calonso88_spi_trial (
   wire [NUM_CFG*REG_WIDTH-1:0] config_regs;
   wire [NUM_STATUS*REG_WIDTH-1:0] status_regs;
 
+  wire reduction;
+  assign reduction = |config_regs;
+
   // Assign status
   assign status_regs[7:0]   = 8'hCA;
   assign status_regs[15:8]  = 8'h10;
   assign status_regs[23:16] = 8'hAA;
   assign status_regs[31:24] = 8'h55;
-  assign status_regs[39:32] = 8'hFF;
+  //assign status_regs[39:32] = 8'hFF;
+  assign status_regs[39:32] = {8{reduction}};
   assign status_regs[47:40] = 8'h00;
   assign status_regs[55:48] = 8'hA5;
   assign status_regs[63:56] = 8'h5A;
