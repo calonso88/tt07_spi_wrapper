@@ -59,8 +59,9 @@ module tt_um_calonso88_spi_trial (
   synchronizer #(.WIDTH(1)) synchronizer_spi_mode_cpha (.rstb(rst_n), .clk(clk), .ena(ena), .data_in(cpha), .data_out(cpha_sync));
 
   // Amount of CFG Regs and Status Regs + Regs Width
+  // Limitation: NUM_CFG must be equal to NUM_STATUS
   localparam int NUM_CFG = 8;
-  localparam int NUM_STATUS = 8;
+  localparam int NUM_STATUS = NUM_CFG;
   localparam int REG_WIDTH = 8;
   
   // Config Regs and Status Regs
