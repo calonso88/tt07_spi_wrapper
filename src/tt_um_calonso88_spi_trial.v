@@ -78,7 +78,6 @@ module tt_um_calonso88_spi_trial (
   assign status_regs[31:24] = 8'h55;
   assign status_regs[39:32] = 8'hFF;
   //assign status_regs[39:32] = {8{reduction}};
-  assign status_regs[39:32] = 8'h00;
   assign status_regs[47:40] = 8'h00;
   assign status_regs[55:48] = 8'hA5;
   assign status_regs[63:56] = 8'h5A;
