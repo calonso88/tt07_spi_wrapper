@@ -81,7 +81,7 @@ module tt_um_calonso88_spi_trial (
   assign status_regs[47:40] = 8'h00;
   assign status_regs[55:48] = 8'hA5;
   assign status_regs[63:56] = 8'h5A;
-  assign status_regs[127:64] = {64{reduction}};
+  assign status_regs[127:64] = {64{1'b1}};
 
   // SPI wrapper
   spi_wrapper #(.NUM_CFG(NUM_CFG), .NUM_STATUS(NUM_STATUS), .REG_WIDTH(REG_WIDTH)) spi_wrapper_i (.rstb(rst_n), .clk(clk), .ena(ena), .mode({cpol_sync, cpha_sync}), .spi_cs_n(spi_cs_n_sync), .spi_clk(spi_clk_sync), .spi_mosi(spi_mosi_sync), .spi_miso(spi_miso), .config_regs(config_regs), .status_regs(status_regs));
